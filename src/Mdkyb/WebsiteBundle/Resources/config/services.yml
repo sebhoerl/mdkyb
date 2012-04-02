@@ -1,0 +1,6 @@
+services:
+    mdkyb.website.twig.format_static_content_extension:
+        class: Mdkyb\WebsiteBundle\Service\FormatStaticContentExtension
+        arguments: [@router]
+        tags:
+            - { name: twig.extension }

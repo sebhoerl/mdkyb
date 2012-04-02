@@ -1,0 +1,7 @@
+{% extends "MdkybWebsiteBundle::layout.html.twig" %}
+
+{% block title page.title %}
+
+{% block content %}
+    {{ page.content|static_content|raw }}
+{% endblock %}

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title '' %} - Magdeburger Kybernetiker</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    </head>
+    <body>
+        {% block menu %}
+            {% render "MdkybWebsiteBundle:StaticContent:showMenu" %}
+        {% endblock %}
+        <hr />
+        {% block content '' %}
+    </body>
+</html>
