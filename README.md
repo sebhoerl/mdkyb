@@ -67,33 +67,14 @@ es ssh access auf dem Webspace gibt). Ansonsten hier die Schrittfolge:
 
 * Dateien backuppen (per FTP).
 
-* Lokal die Caches löschen (in prod Umgebung):
+* Ich habe das Shellscript "deploy.sh" hinzugefügt. Es erstellt einen Ordner "deploy", in den alle relevanten Dateien hinein kopiert werden (git Verzeichnisse und ähnliches werden ausgelassen). Außerdem muss man die aktuelle Migration Version des Servers eingeben (siehe https://bitbucket.org/blogsh/mdkyb/wiki/Home). Das Script erstellt eine SQL-Datei im "deploy" Verzeichnis, die auf dem Server mit phpmyadmin ausgeführt werden kann um die Datenbank zu updaten. Das Update bringt die Datenbank auf die aktuelle Version aus dem Repository. Man muss also lediglich die SQL Queries ausführen und die Dateien auf dem Server mit denen aus /deploy überschreiben. Das Script stellt danach automatisch wieder die vollständigen vendors her (daher der lange Update-Prozess. Zu diesem Zeitpunkt ist das Deploy-Verzeichnis aber schon komplett fertig).
 
-    app/console cache:clear --env=prod
+* Herausfinden, welche Migration die aktuelle ist in der lokalen Kopie (wurde automatisch wieder zurückgesetzt vom Script):
 
-* Unnötigen Ballast aus den Vendor Libraries entfernen:
+    app/console doctrine:migrations:status
 
-    find vendor -name .git -type d | xargs rm -rf
+* Den Wert von "Current version" (z.B. 20120402183001) ins Wiki (https://bitbucket.org/blogsh/mdkyb/wiki/Home) übernehmen. DAs ist wichtig, damit das Updaten der Datenbank immer glatt läuft.
 
-* Alle Dateien außer app/logs/* und app/cache/* per FTP hochladen und überschreiben.
-* Sicherstellen, dass PHP auf app/logs und app/cache write access hat (sollte standardmäßig so sein)
+* Auf dem Server muss noch per FTP das /app/cache Verzeichnis komplett geleert werden.
 
-* Herausfinden, welche Version des Datenkbankschemas auf dem Server aktuell ist (über phpMyAdmin, Tabelle "migration_versions").
-* Die lokale Datenbank auf diese Version bringen:
-
-    app/console doctrine:migrations:migrate [version einfügen]
-
-* Nun von diesem Standpunkt aus die SQL Befehle ausgeben lassen, die zur aktuellsten Version führen:
-
-    app/console doctrine:migrations:migrate --write-sql
-
-* Die ausgegebenen SQL Befehle mit phpMyAdmin auf dem Server ausführen.
-* Die lokale Datenkbank wieder auf den aktuellen Stand bringen.
-
-    app/console doctrine:migrations:migrate
-
-* Die lokalen Vendors wieder komplett herstellen
-
-    bin/vendors install --reinstall
-
-Soweit die Theorie, ob das alles passt wird überprüft, sobald eine erste Version auf den Testserver geladen wird :)
+Durch das Script ist der ganze Vorgang sehr einfach geworden. Es sollten keine großartigen Schwierigkeiten auftreten.
