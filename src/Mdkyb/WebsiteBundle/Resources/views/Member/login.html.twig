@@ -1,0 +1,17 @@
+{% extends 'MdkybWebsiteBundle::layout.html.twig' %}
+
+{% block title 'Einloggen' %}
+
+{% block content %}
+
+<form action="{{ path('login_check') }}" method="post">
+    <label for="email">E-Mail:</label>
+    <input type="text" id="email" name="_username" value="" />
+
+    <label for="password">Passwort:</label>
+    <input type="password" id="password" name="_password" />
+
+    <button type="submit">Einloggen</button>
+</form>
+
+{% endblock %}
