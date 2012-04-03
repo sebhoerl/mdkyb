@@ -5,12 +5,13 @@ namespace Mdkyb\WebsiteBundle\DataFixtures\ORM;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use Mdkyb\WebsiteBundle\Entity\Member;
 
-class LoadMembers implements FixtureInterface, ContainerAwareInterface
+class LoadMembers extends AbstractFixture implements ContainerAwareInterface, OrderedFixtureInterface
 {
     private $container;
 
@@ -43,5 +44,13 @@ class LoadMembers implements FixtureInterface, ContainerAwareInterface
         $manager->persist($test);
 
         $manager->flush();
+
+        $this->addReference('admin-member', $admin);
+        $this->addReference('test-member', $test);
+    }
+
+    public function getOrder()
+    {
+        return 1;
     }
 }

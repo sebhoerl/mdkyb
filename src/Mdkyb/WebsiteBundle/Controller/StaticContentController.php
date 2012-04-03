@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 class StaticContentController extends AbstractController
 {
     /**
-     * @Route("/", defaults={"slug"="index"})
      * @Route("/static/{slug}", name="static")
      * @Template()
      */

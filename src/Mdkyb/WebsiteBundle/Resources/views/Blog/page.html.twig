@@ -1,0 +1,15 @@
+{% extends 'MdkybWebsiteBundle::layout.html.twig' %}
+
+{% block title 'Blog' %}
+
+{% block content %}
+
+    <h1>Blog</h1>
+
+    {% for post in posts %}
+        <h2>{{ post.title }}</h2>
+        {{ post.publishedAt|date('d.m.Y H:i:s') }}, {{ post.author.name }}<br />
+        {{ post.content }}
+    {% endfor %}
+
+{% endblock %}

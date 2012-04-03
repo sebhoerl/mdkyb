@@ -6,6 +6,13 @@
     </head>
     <body>
         {% block menu %}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <a href="{{ url('profile') }}">{{ app.user.name }}</a> |
+                <a href="{{ url('logout') }}">Abmelden</a>
+            {% else %}
+                <a href="{{ url('login') }}">Einloggen</a>
+            {% endif %}
+            |
             {% render "MdkybWebsiteBundle:StaticContent:showMenu" %}
         {% endblock %}
         <hr />
