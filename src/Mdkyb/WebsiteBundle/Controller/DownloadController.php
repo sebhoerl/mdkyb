@@ -12,7 +12,7 @@ use Datetime;
 class DownloadController extends AbstractController
 {
     /**
-     * @Route("/downloads")
+     * @Route("/downloads", name="downloads")
      * @Template()
      * @Secure(roles="IS_AUTHENTICATED_FULLY")
      */

@@ -2,6 +2,11 @@
 
 {% block content %}
 
+    <a href="{{ url('index') }}">Startseite</a> |
+    <a href="{{ url('admin_index') }}">Administration</a> &gt;
+    <a href="{{ url('admin_list', {name:object_name}) }}">{{ object_name }}</a>
+    <hr />
+
     <form action="" method="post">
         Objekt wirklich löschen?
 

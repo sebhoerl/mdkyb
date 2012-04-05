@@ -291,6 +291,7 @@ class AdminController extends AbstractController
 
         return $this->render($template, array(
             'object' => $objectConfig,
+            'object_name' => $name,
         ));
     }
 

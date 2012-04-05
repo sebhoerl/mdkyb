@@ -14,7 +14,7 @@ class JobController extends AbstractController
     const POSTS_PER_PAGE = 10;
 
     /**
-     * @Route("/jobs")
+     * @Route("/jobs", name="jobs")
      * @Template()
      * @Secure(roles="IS_AUTHENTICATED_FULLY")
      */

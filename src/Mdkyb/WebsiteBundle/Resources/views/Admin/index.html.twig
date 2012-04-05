@@ -2,6 +2,9 @@
 
 {% block content %}
 
+<a href="{{ url('index') }}">Startseite</a>
+<hr />
+
 <ul>
     {% for name, config in objects %}
         <li><a href="{{ url('admin_list', {name:name}) }}">{{ config.label }}</a> {{ config.description }}</li>

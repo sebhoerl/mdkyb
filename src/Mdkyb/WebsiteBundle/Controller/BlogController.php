@@ -12,7 +12,7 @@ class BlogController extends AbstractController
     const POSTS_PER_PAGE = 10;
 
     /**
-     * @Route("/")
+     * @Route("/", name="index")
      * @Route("/blog")
      * @Route("/blog/page/{page}", name="blog_page")
      * @Template()

@@ -2,6 +2,10 @@
 
 {% block content %}
 
+    <a href="{{ url('index') }}">Startseite</a> |
+    <a href="{{ url('admin_index') }}">Administration</a>
+    <hr />
+
     {% if app.request.session.hasFlash('admin.deleted') %}
         Object wurde gelöscht.
     {% endif %}

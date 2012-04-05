@@ -7,7 +7,7 @@ use Twig_Filter_Method;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
- * Replaces [[slug :: label]] in static contents with the corresponding URL 
+ * Replaces [[page]] in static contents with the corresponding URL 
  */
 class FormatStaticContentExtension extends Twig_Extension
 {
@@ -22,10 +22,18 @@ class FormatStaticContentExtension extends Twig_Extension
     {
         $router = $this->router;
 
-        return preg_replace_callback('/\[\[(.*?)::(.*?)\]\]/', function($match) use ($router) {
-            list(, $slug, $label) = $match;
-            $url = $router->generate('static', array('slug' => trim($slug)));
-            return sprintf('<a href="%s">%s</a>', trim($url), trim($label));
+        return preg_replace_callback('/\[\[(.*?)\]\]/', function($match) use ($router) {
+            list(, $slug) = $match;
+            switch ($slug) {
+                case '_index':
+                    return $router->generate('index');
+                case '_downloads':
+                    return $router->generate('downloads');
+                case '_jobs':
+                    return  $router->generate('jobs');
+                default:
+                    return $router->generate('static', array('slug' => trim($slug)));
+            }
         }, $text);
     }
 
