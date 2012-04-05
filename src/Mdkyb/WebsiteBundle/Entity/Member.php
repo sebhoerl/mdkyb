@@ -4,6 +4,7 @@ namespace Mdkyb\WebsiteBundle\Entity;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -30,6 +31,12 @@ class Member implements UserInterface
      * @ORM\Column(type="string", length=32)
      */
     private $salt;
+
+    /**
+     * @ORM\Column(type="array")
+     * @Assert\Choice(choices={"ROLE_ADMIN", "ROLE_BLOG_ADMIN", "ROLE_MEMBER_ADMIN"}, multiple = true)
+     */
+    private $roles = array();
 
     public function __construct()
     {
@@ -97,11 +104,11 @@ class Member implements UserInterface
 
     public function getRoles()
     {
-        if ($this->email == 'admin@mdkyb.dev') {
-            return array('ROLE_ADMIN');
-        }
-
-        return array();
+        return $this->roles;
     }
 
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
+    }
 }

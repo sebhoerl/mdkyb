@@ -65,6 +65,10 @@
                             {{ attribute(object, name) }}
                         {% elseif field.format == 'date' %}
                             {{ attribute(object, name)|date }}
+                        {% elseif field.format == 'list' %}
+                            {% for item in attribute(object, name) %}
+                                {{ item }}
+                            {% endfor %}
                         {% endif %}
                         </a>
                     </td>

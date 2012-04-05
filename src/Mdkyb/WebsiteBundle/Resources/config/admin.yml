@@ -25,3 +25,37 @@ objects:
                 label: Erstellt
                 format: date
                 edit: false
+    member:
+        label: Mitglieder
+        description: Verwaltung der Mitglieder
+        entity: Mdkyb\WebsiteBundle\Entity\Member
+        identifier: email
+        fields:
+            name:
+                label: Name
+            email:
+                label: E-Mail
+            roles:
+                label: Rollen
+                format: list
+                type: choice
+                options:
+                    choices:
+                        ROLE_ADMIN: Administrationsbereich
+                        ROLE_MEMBER_ADMIN: Nutzerverwaltung
+                        ROLE_BLOG_ADMIN: Blogverwaltung
+                    multiple: true
+    static:
+        label: Seiten
+        description: Statische Seiten bearbeiten
+        entity: Mdkyb\WebsiteBundle\Entity\StaticContent
+        identifier: id
+        fields:
+            id:
+                label: ID
+            title:
+                label: Titel
+            content:
+                label: Inhalt
+                list: false
+                type: textarea

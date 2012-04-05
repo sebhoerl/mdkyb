@@ -22,8 +22,11 @@ class LifecycleListener
         $entityManager = $args->getEntityManager();
         $securityContext = $this->container->get('security.context');
 
-        if ($entity instanceof BlogPost) {
-            $entity->setAuthor($securityContext->getToken()->getUser());
+        if ($entity instanceof BlogPost && $entity->getAuthor() == null) {
+            $token = $securityContext->getToken();
+            if ($token && $user = $token->getUser()) {
+                $entity->setAuthor($user);
+            }
         }
     }
 }

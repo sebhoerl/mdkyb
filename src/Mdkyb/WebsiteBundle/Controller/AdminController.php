@@ -83,9 +83,9 @@ class AdminController extends AbstractController
         }
 
         if ($order_by === null || !isset($fields[$order_by]) || $fields[$order_by]['orderable'] == false) {
-            foreach (array_keys($fields) as $name => $config) {
+            foreach ($fields as $fname => $config) {
                 if ($config['orderable']) {
-                    $order_by = $name;
+                    $order_by = $fname;
                     break;
                 }
             }
@@ -239,6 +239,9 @@ class AdminController extends AbstractController
 
                 $request->getSession()->setFlash('admin.edited', true);
 
+                $getter = 'get' . $objectConfig['identifier'];
+                $id = $object->{$getter}();
+
                 return $this->redirect($this->generateUrl('admin_edit', array(
                     'name' => $name,
                     'id' => $id,
@@ -327,8 +330,13 @@ class AdminController extends AbstractController
 
         foreach ($fieldConfig as $name => $config) {
             if ($config['edit']) {
-                $builder->add($name, $config['type'], array(
+                /*$builder->add($name, $config['type'], array(
                     'label' => $config['label']
+                ));*/
+                //$builder->add($name, 'choice');
+                $builder->add($name, $config['type'], array_merge(
+                    array('label' => $config['label']),
+                    $config['options']
                 ));
             }
         }
@@ -421,6 +429,10 @@ class AdminController extends AbstractController
                                         ->end()
                                         ->booleanNode('filterable')
                                             ->defaultTrue()
+                                        ->end()
+                                        ->arrayNode('options')
+                                            ->useAttributeAsKey('name')
+                                            ->prototype('variable')->end()
                                         ->end()
                                     ->end()
                                 ->end()
