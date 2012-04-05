@@ -1,0 +1,19 @@
+{% extends 'MdkybWebsiteBundle::layout.html.twig' %}
+
+{% block title 'Downloads' %}
+
+{% block content %}
+
+    <h1>Downloads</h1>
+
+    <h2>Protokolle</h2>
+    {% for download in downloads if download.type == 'protocol' %}
+        <a href="{{ url('download', {id:download.id}) }}">{{ download.title }}</a> {{ download.displayType }}<br />
+    {% endfor %}
+
+    <h2>Sonstiges</h2>
+    {% for download in downloads if download.type == 'misc' %}
+        <a href="{{ url('download', {id:download.id}) }}">{{ download.title }}</a> {{ download.displayType }}<br />
+    {% endfor %}
+
+{% endblock %}

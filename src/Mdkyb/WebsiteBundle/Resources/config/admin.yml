@@ -25,6 +25,29 @@ objects:
                 label: Erstellt
                 format: date
                 edit: false
+    download:
+        label: Download
+        description: Downloads verwalten
+        entity: Mdkyb\WebsiteBundle\Entity\Download
+        identifier: id
+        save_handler: processDownload
+        fields:
+            title:
+                label: Titel
+            description:
+                label: Beschreibung
+            type:
+                label: Typ
+            file:
+                label: Datei
+                list: false
+            type:
+                label: Typ
+                type: choice
+                options:
+                    choices:
+                        protocol: Protokoll
+                        misc: Sonstiges
     member:
         label: Mitglieder
         description: Verwaltung der Mitglieder

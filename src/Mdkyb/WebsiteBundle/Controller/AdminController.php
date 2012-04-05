@@ -20,6 +20,11 @@ class AdminController extends AbstractController
 {
     private $configuration = null;
 
+    protected function processDownload($download)
+    {
+        $download->upload();
+    }
+
     /**
      * @Route("/index", name="admin_index")
      */
@@ -234,6 +239,11 @@ class AdminController extends AbstractController
 
             if ($form->isValid()) {
                 $em = $this->getEntityManager();
+
+                if ($handler = $objectConfig['save_handler']) {
+                    $this->{$handler}($object);
+                }
+
                 $em->persist($object);
                 $em->flush();
 
@@ -303,6 +313,11 @@ class AdminController extends AbstractController
 
             if ($form->isValid()) {
                 $em = $this->getEntityManager();
+
+                if ($handler = $objectConfig['save_handler']) {
+                    $this->{$handler}($object);
+                }
+
                 $em->persist($object);
                 $em->flush();
 
@@ -390,6 +405,9 @@ class AdminController extends AbstractController
                             ->scalarNode('entity')->end()
                             ->scalarNode('identifier')
                                 ->defaultValue('id')
+                            ->end()
+                            ->scalarNode('save_handler')
+                                ->defaultNull()
                             ->end()
                             ->arrayNode('ordering')
                                 ->addDefaultsIfNotSet()
