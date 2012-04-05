@@ -11,5 +11,12 @@
         {{ post.publishedAt|date('d.m.Y H:i:s') }}, {{ post.author.name }}<br />
         {{ post.content }}
     {% endfor %}
+    <br />
+    {% if page > 1%}
+        <a href="{{ url('blog_page', {page:page-1}) }}">Neuere Posts</a>
+    {% endif %}
+    {% if show_next %}
+        <a href="{{ url('blog_page', {page:page+1}) }}">Ältere Posts</a>
+    {% endif %}
 
 {% endblock %}
