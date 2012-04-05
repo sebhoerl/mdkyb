@@ -44,7 +44,28 @@ objects:
                         ROLE_ADMIN: Administrationsbereich
                         ROLE_MEMBER_ADMIN: Nutzerverwaltung
                         ROLE_BLOG_ADMIN: Blogverwaltung
+                        ROLE_JOB_ADMIN: Jobangebotverwaltung
                     multiple: true
+    job:
+        label: Jobs
+        description: Verwaltung der Jobangebote
+        entity: Mdkyb\WebsiteBundle\Entity\Job
+        identifier: id
+        fields:
+            title:
+                label: Titel
+            description:
+                label: Beschreibung
+            type:
+                label: Typ
+                type: choice
+                options:
+                    choices:
+                        job: Jobangebot
+                        training: Praktikum
+            expiresAt:
+                label: Verfällt
+                format: date
     static:
         label: Seiten
         description: Statische Seiten bearbeiten

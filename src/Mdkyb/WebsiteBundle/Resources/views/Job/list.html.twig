@@ -1,0 +1,21 @@
+{% extends 'MdkybWebsiteBundle::layout.html.twig' %}
+
+{% block title 'Jobangebote' %}
+
+{% block content %}
+
+    <h1>Jobangebote</h1>
+
+    <h2>Jobs</h2>
+    {% for job in jobs if job.type == 'job' %}
+        <a href="{{ url('job_show', {id:job.id}) }}">{{ job.title }}</a>
+        gelisetet bis {{ job.expiresAt|date('d.m.Y') }}<br />
+    {% endfor %}
+
+    <h2>Praktika</h2>
+    {% for job in jobs if job.type == 'training' %}
+        <a href="{{ url('job_show', {id:job.id}) }}">{{ job.title }}</a>
+        gelistet bis {{ job.expiresAt|date('d.m.Y') }}<br />
+    {% endfor %}
+
+{% endblock %}

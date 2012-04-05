@@ -34,7 +34,9 @@ class Member implements UserInterface
 
     /**
      * @ORM\Column(type="array")
-     * @Assert\Choice(choices={"ROLE_ADMIN", "ROLE_BLOG_ADMIN", "ROLE_MEMBER_ADMIN"}, multiple = true)
+     * @Assert\Choice(choices={
+     *     "ROLE_ADMIN", "ROLE_BLOG_ADMIN", "ROLE_MEMBER_ADMIN", "ROLE_JOB_ADMIN"
+      * }, multiple = true)
      */
     private $roles = array();
 

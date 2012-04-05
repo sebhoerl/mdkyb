@@ -1,0 +1,13 @@
+{% extends 'MdkybWebsiteBundle::layout.html.twig' %}
+
+{% block title job.title %}
+
+{% block content %}
+
+    <h1>{{ job.title }}</h1>
+
+    gelistet bis {{ job.expiresAt|date('d.m.Y') }}<br />
+
+    {{ job.description }}
+
+{% endblock %}

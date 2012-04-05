@@ -152,7 +152,7 @@ class AdminController extends AbstractController
         $count = $countQuery->getSingleScalarResult();
         $PER_PAGE = 10;
 
-        $max_page = ceil($count / $PER_PAGE);
+        $max_page = max(1, ceil($count / $PER_PAGE));
         $page = max(1, $page);
         $page = min($max_page, $page);
 
