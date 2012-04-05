@@ -1,0 +1,27 @@
+templates:
+    index: a
+    list: b
+    edit: c
+objects:
+    blog:
+        label: Blog
+        description: Blog Einträge verwalten
+        entity: Mdkyb\WebsiteBundle\Entity\BlogPost
+        identifier: id
+        ordering:
+            field: publishedAt
+            direction: asc
+        fields:
+            title:
+                label: Titel
+            content:
+                label: Inhalt
+                list: false
+                type: textarea
+            publishedAt:
+                label: Veröffentlicht
+                format: date
+            createdAt:
+                label: Erstellt
+                format: date
+                edit: false

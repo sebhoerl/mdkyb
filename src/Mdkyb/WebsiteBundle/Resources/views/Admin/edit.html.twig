@@ -1,0 +1,21 @@
+{% extends 'MdkybWebsiteBundle:Admin:layout.html.twig' %}
+
+{% block content %}
+
+    {% if app.request.session.hasFlash('admin.edited') %}
+        Object wurde editiert.
+    {% endif %}
+
+    {% if app.request.session.hasFlash('admin.created') %}
+        Object wurde erstellt.
+    {% endif %}
+
+    <form action="" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+
+        <input type="submit" />
+    </form>
+
+    <a href="{{ url('admin_delete', {name:object_name, id: object_id}) }}">Löschen</a>
+
+{% endblock %}

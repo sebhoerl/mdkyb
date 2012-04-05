@@ -1,0 +1,88 @@
+{% extends 'MdkybWebsiteBundle:Admin:layout.html.twig' %}
+
+{% block content %}
+
+    {% if app.request.session.hasFlash('admin.deleted') %}
+        Object wurde gelöscht.
+    {% endif %}
+
+<a href="{{ url('admin_create', {name:object_name}) }}">Neu</a>
+
+<form method="post" action="">
+
+    Order by:
+    <select name="order_by">
+        {% for name, field in fields if field.orderable and field.list %}
+            <option value="{{ name }}"
+            {% if order_by == name %}selected{% endif %}
+            >{{ field.label }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="order_dir">
+        <option value="asc" {% if order_dir == 'asc' %}selected{% endif %}>Aufsteigend</option>
+        <option value="desc" {% if order_dir == 'desc' %}selected{% endif %}>Absteigend</option>
+    </select>
+
+    <input type="submit" />
+
+</form>
+
+<hr />
+
+<form method="post" action="">
+    Filter:
+    <select name="filter_field">
+        <option value=""></option>
+        {% for name, field in fields if field.filterable and field.list %}
+            <option value="{{ name }}"
+            {% if filter_field == name %}selected{% endif %}
+            >{{ field.label }}</option>
+        {% endfor %}
+    </select>
+
+    <input name="filter_value" type="text" value="{{ filter_value }}" />
+    <input type="submit" />
+</form>
+
+<hr />
+
+<table>
+    <tr>
+        {% for name, field in fields %}
+            {% if field.list %}
+                <th>{{ field.label }}</th>
+            {% endif %}
+        {% endfor %}
+    </tr>
+    {% for object in objects %}
+        <tr>
+            {% for name, field in fields %}
+                {% if field.list %}
+                    <td>
+                        <a href="{{ url('admin_edit', {name: object_name, id: attribute(object, identifier)}) }}">
+                        {% if field.format == 'text' %}
+                            {{ attribute(object, name) }}
+                        {% elseif field.format == 'date' %}
+                            {{ attribute(object, name)|date }}
+                        {% endif %}
+                        </a>
+                    </td>
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+
+Seite 
+{% for page in pages %}
+    {% if page.type == 'current' %}
+        {{ page.number }}
+    {% elseif page.type == 'link' %}
+        <a href="{{ url('admin_list_page', {name:object_name, page:page.number}) }}">{{ page.number }}</a>
+    {% elseif page.type == 'separator' %}
+        ...
+    {% endif %}
+{% endfor %}
+
+{% endblock %}

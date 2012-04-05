@@ -17,5 +17,9 @@
         {% endblock %}
         <hr />
         {% block content '' %}
+        <hr />
+        {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ url('admin_index') }}">Administrationsbereich</a>
+        {% endif %}
     </body>
 </html>
