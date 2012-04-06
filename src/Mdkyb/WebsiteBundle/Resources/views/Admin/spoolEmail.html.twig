@@ -1,0 +1,19 @@
+{% extends 'MdkybWebsiteBundle:Admin:layout.html.twig' %}
+
+{% block content %}
+
+    <a href="{{ url('index') }}">Startseite</a> |
+    <a href="{{ url('admin_index') }}">Administration</a> &gt;
+    <a href="{{ url('admin_email') }}">E-Mails versenden</a>
+    <hr />
+
+    {% if count > 1 %}
+        Verschicke E-Mails... Noch {{ count -1 }} übrig.
+        <script type="text/javascript">
+            window.location = "{{ url('admin_email_spool') }}";
+        </script>
+    {% else %}
+        Alle E-Mails wurden verschickt.
+    {% endif %}
+
+{% endblock %}

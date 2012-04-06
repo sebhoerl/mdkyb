@@ -9,6 +9,7 @@
     {% for name, config in objects %}
         <li><a href="{{ url('admin_list', {name:name}) }}">{{ config.label }}</a> {{ config.description }}</li>
     {% endfor %}
+    <li><a href="{{ url('admin_email') }}">E-Mails versenden</a> </li>
 </ul>
 
 {% endblock %}

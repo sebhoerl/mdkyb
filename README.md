@@ -1,3 +1,5 @@
+Achtung! Es wird noch alles kommentiert... im Moment schreibe ich die Seite aber auf dem Netbook, da versuche ich jedes nicht notwendige Tippen zu vermeiden :)
+
 MDkyb Homepage
 ==============
 

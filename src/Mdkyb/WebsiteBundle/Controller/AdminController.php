@@ -8,6 +8,10 @@ use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\HttpFoundation\Response;
 use Swift_Message;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
+use Mdkyb\WebsiteBundle\Entity\Email;
+
 /*
  * ACHTUNG!!!
  *
@@ -30,6 +34,77 @@ class AdminController extends AbstractController
     protected function processImage($download)
     {
         $download->upload();
+    }
+
+    /**
+     * @Route("/email", name="admin_email")
+     * @Template()
+     */
+    public function emailAction()
+    {
+        $email = new Email();
+        $form = $this->createFormBuilder($email)
+            ->add('title')
+            ->add('content', 'textarea')
+            ->getForm();
+
+        $request = $this->getRequest();
+        if ($request->getMethod() == 'POST') {
+            $form->bindRequest($request);
+
+            if ($form->isValid()) {
+                $em = $this->getEntityManager();
+                $members = $em->getRepository('MdkybWebsiteBundle:Member')->findAll();
+
+                foreach ($members as $member) {
+                    $new = clone $email;
+                    $new->setMember($member);
+                    $em->persist($new);
+                }
+
+                $em->flush();
+
+                return $this->redirect($this->generateUrl(
+                    'admin_email_spool'
+                ));
+            }
+        }
+
+        return array('form' => $form->createView());
+    }
+
+    /**
+     * @Route("/email/spool", name="admin_email_spool")
+     * @Template()
+     */
+    public function spoolEmailAction()
+    {
+        $count = $this->getEntityManager()
+            ->createQuery('select count(e) from MdkybWebsiteBundle:Email e')
+            ->getSingleScalarResult();
+
+        $email = null;
+        if ($count > 0) {
+            $email = $this->getEntityManager()
+                ->createQuery('select e, m from MdkybWebsiteBundle:Email e join e.member m')
+                ->setMaxResults(1)
+                ->getSingleResult();
+
+                $message = Swift_Message::newInstance()
+                    ->setSubject($email->getTitle())
+                    ->setFrom('no-reply@magdeburgerkybernetiker.de')
+                    ->setTo(array($email->getMember()->getEmail() => $email->getMember()->getName()))
+                    ->setBody($email->getContent())
+                ;
+
+                $this->get('mailer')->send($message);
+
+                $em = $this->getEntityManager();
+                $em->remove($email);
+                $em->flush();
+        }
+
+        return array('count' => $count, 'email' => $email);
     }
 
     public function registerAction($object, $objectName, $objectInfo)

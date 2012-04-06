@@ -1,0 +1,16 @@
+{% extends 'MdkybWebsiteBundle:Admin:layout.html.twig' %}
+
+{% block content %}
+
+    <a href="{{ url('index') }}">Startseite</a> |
+    <a href="{{ url('admin_index') }}">Administration</a> &gt;
+    <a href="{{ url('admin_email') }}">E-Mails versenden</a>
+    <hr />
+
+    <form action="" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+
+        <input type="submit" />
+    </form>
+
+{% endblock %}
