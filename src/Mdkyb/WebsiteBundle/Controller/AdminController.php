@@ -25,6 +25,11 @@ class AdminController extends AbstractController
         $download->upload();
     }
 
+    protected function processImage($download)
+    {
+        $download->upload();
+    }
+
     /**
      * @Route("/index", name="admin_index")
      */

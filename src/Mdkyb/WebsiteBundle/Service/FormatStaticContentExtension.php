@@ -31,6 +31,8 @@ class FormatStaticContentExtension extends Twig_Extension
                     return $router->generate('downloads');
                 case '_jobs':
                     return  $router->generate('jobs');
+                case '_gallery':
+                    return $router->generate('gallery');
                 default:
                     return $router->generate('static', array('slug' => trim($slug)));
             }

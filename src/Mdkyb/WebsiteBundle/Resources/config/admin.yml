@@ -3,6 +3,28 @@ templates:
     list: b
     edit: c
 objects:
+    image:
+        label: Image
+        description: Bilder verwalten
+        entity: Mdkyb\WebsiteBundle\Entity\Image
+        identifier: id
+        save_handler: processImage
+        fields:
+            title:
+                label: Titel
+            file:
+                label: Datei
+                list: false
+            gallery:
+                label: Gallerie
+    gallery:
+        label: Gallerien
+        description: Verwaltung der Gallerien
+        entity: Mdkyb\WebsiteBundle\Entity\Gallery
+        identifier: id
+        fields:
+            title:
+                label: Titel
     blog:
         label: Blog
         description: Blog Einträge verwalten
