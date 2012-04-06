@@ -5,6 +5,7 @@ namespace Mdkyb\WebsiteBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
+use Mdkyb\WebsiteBundle\Model\Registration;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
@@ -45,4 +46,65 @@ class MemberController extends AbstractController
      */
     public function logoutAction()
     {}
+
+    /**
+     * @Route("/registration_complete", name="registration_complete")
+     * @Template()
+     */
+    public function registrationCompleteAction()
+    {
+        return array();
+    }
+
+    /**
+     * @Route("/register/{email}/{key}", name="register")
+     * @Template()
+     */
+    public function registerAction($email, $key)
+    {
+        if (strlen($key) == 32)
+        {
+            $member = $this->getEntityManager()->getRepository('MdkybWebsiteBundle:Member')->find($email);
+            if ($member === null) {
+                throw $this->createNotFoundException('Ein Benutzer mit dieser Adresse existiert nicht!');
+            }
+
+            if ($member->getRegistrationKey() === $key) {
+                $registration = new Registration();
+
+                $form = $this->createFormBuilder($registration)
+                    ->add('password', 'repeated', array(
+                        'type' => 'password',
+                    ))
+                    ->getForm();
+
+                $request = $this->getRequest();
+                if ($request->getMethod() == 'POST') {
+                    $form->bindRequest($request);
+
+                    if ($form->isValid()) {
+                        $em = $this->getEntityManager();
+
+                        $encFactory = $this->get('security.encoder_factory');
+                        $encoder = $encFactory->getEncoder($member);
+                        $password = $encoder->encodePassword($registration->getPassword(), $member->getSalt());
+                        
+                        $member->setPassword($password);
+                        $member->setRegistrationKey('');
+
+                        $em->persist($member);
+                        $em->flush();
+
+                        return $this->redirect($this->generateUrl(
+                            'registration_complete'
+                        ));
+                    }
+                }
+
+                return array('member' => $member, 'form' => $form->createView());
+            }
+        }
+
+        throw $this->createNotFoundException('Der Key ist abgelaufen!');
+    }
 }

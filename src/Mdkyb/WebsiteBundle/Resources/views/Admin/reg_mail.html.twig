@@ -1,0 +1,9 @@
+Hallo {{ member.name }},
+
+wir haben auf der Homepage des Vereins Magdeburger Kybernetiker einen Account für dich eingerichtet. Du kannst dein persönliches Passwort mit einem Klick auf folgenden Link einstellen:
+
+{{ url('register', {email: member.email, key: member.registrationKey}) }}
+
+Du kannst die Hauptseite unter {{ url('index') }} erreichen.
+
+Viele Grüße

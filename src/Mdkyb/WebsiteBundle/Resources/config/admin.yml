@@ -91,6 +91,17 @@ objects:
                         ROLE_BLOG_ADMIN: Blogverwaltung
                         ROLE_JOB_ADMIN: Jobangebotverwaltung
                     multiple: true
+            password:
+                label: Passwort
+                list: false
+                type: password
+                salt: salt
+                options:
+                    required: false
+        actions:
+            send_registration_mail:
+                label: Registrierungsmail senden
+                controller: registerAction
     job:
         label: Jobs
         description: Verwaltung der Jobangebote

@@ -15,12 +15,19 @@
         Object wurde erstellt.
     {% endif %}
 
+    {% if app.request.session.hasFlash('admin.registration') %}
+        Registrierungs-Mail wurde verwendet!
+    {% endif %}
+
     <form action="" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
 
         <input type="submit" />
     </form>
 
+    <hr />
     <a href="{{ url('admin_delete', {name:object_name, id: object_id}) }}">Löschen</a>
-
+    {% for aname, action in object.actions %}
+        <a href="{{ url('admin_action', {action:aname, id: object_id, name:object_name}) }}">{{ action.label }}</a>
+    {% endfor %}
 {% endblock %}

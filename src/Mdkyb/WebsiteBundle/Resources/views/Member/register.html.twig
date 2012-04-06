@@ -1,0 +1,13 @@
+{% extends 'MdkybWebsiteBundle::layout.html.twig' %}
+
+{% block title "Passwort einstellen" %}
+
+{% block content %}
+    <h2>Stelle hier dein Password ein, {{ member.name }}</h2>
+    
+    <form action="" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+
+        <input type="submit" />
+    </form>
+{% endblock %}

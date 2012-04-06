@@ -5,6 +5,8 @@ namespace Mdkyb\WebsiteBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\HttpFoundation\Response;
+use Swift_Message;
 
 /*
  * ACHTUNG!!!
@@ -28,6 +30,32 @@ class AdminController extends AbstractController
     protected function processImage($download)
     {
         $download->upload();
+    }
+
+    public function registerAction($object, $objectName, $objectInfo)
+    {
+        $request = $this->getRequest();
+        $request->getSession()->setFlash('admin.registration', true);
+
+        $object->generateKey();
+        $em = $this->getEntityManager();
+        $em->persist($object);
+        $em->flush();
+
+        $mailer = $this->get('mailer');
+
+        $message = Swift_Message::newInstance()
+            ->setSubject('Dein Account im Verein Magdeburger Kybernetiker')
+            ->setFrom('no-reply@magdeburgerkybernetiker.de')
+            ->setTo(array($object->getEmail() => $object->getName()))
+            ->setBody($this->renderView('MdkybWebsiteBundle:Admin:reg_mail.html.twig', array('member' => $object)))
+        ;
+
+        $mailer->send($message);
+
+        return $this->redirect($this->generateUrl(
+            'admin_edit', array('name' => $objectName, 'id' => $object->getEmail())
+        ));
     }
 
     /**
@@ -238,6 +266,8 @@ class AdminController extends AbstractController
         $object = $this->getEntityManager()->getRepository($objectConfig['entity'])->find($id);
         $form = $this->buildForm($object, $objectConfig['fields']);
 
+        $original = clone $object;
+
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST') {
             $form->bindRequest($request);
@@ -247,6 +277,29 @@ class AdminController extends AbstractController
 
                 if ($handler = $objectConfig['save_handler']) {
                     $this->{$handler}($object);
+                }
+
+                $fields = $objectConfig['fields'];
+                foreach ($fields as $fname => $field) {
+                    if ($field['type'] == 'password') {
+                        $getter = 'get' . $fname;
+                        $setter = 'set' . $fname;
+                        $new = $object->{$getter}();
+                        $old = $original->{$getter}();
+
+                        if ($new !== null) {
+                            $encFactory = $this->get('security.encoder_factory');
+                            $encoder = $encFactory->getEncoder($object);
+
+                            $saltGetter = 'get' . $field['salt'];
+                            $salt = $object->{$saltGetter}();
+
+                            $new = $encoder->encodePassword($new, $salt);
+                            $object->{$setter}($new);
+                        } else {
+                            $object->{$setter}($old);
+                        }
+                    }
                 }
 
                 $em->persist($object);
@@ -324,6 +377,24 @@ class AdminController extends AbstractController
                     $this->{$handler}($object);
                 }
 
+                $fields = $objectConfig['fields'];
+                foreach ($fields as $fname => $field) {
+                    if ($field['type'] == 'password') {
+                        $getter = 'get' . $fname;
+                        $setter = 'set' . $fname;
+                        $new = $object->{$getter}();
+
+                        $encFactory = $this->get('security.encoder_factory');
+                        $encoder = $encFactory->getEncoder($object);
+
+                        $saltGetter = 'get' . $field['salt'];
+                        $salt = $object->{$saltGetter}();
+
+                        $new = $encoder->encodePassword($new, $salt);
+                        $object->{$setter}($new);
+                    }
+                }
+
                 $em->persist($object);
                 $em->flush();
 
@@ -343,6 +414,27 @@ class AdminController extends AbstractController
             'form' => $form->createView(),
             'object_name' => $name,
         ));
+    }
+
+    /**
+     * @Route("/action/{action}/{name}/{id}", name="admin_action")
+     */
+    public function actionAction($action, $name, $id)
+    {
+        $configuration = $this->getConfiguration();
+        $template = 'MdkybWebsiteBundle:Admin:delete.html.twig';
+
+        $objectConfig = $configuration['objects'][$name];
+        $object = $this->getEntityManager()->getRepository($objectConfig['entity'])->find($id);
+
+        foreach ($objectConfig['actions'] as $aname => $actionConfig) {
+            if ($aname == $action) {
+                $callback = $actionConfig['controller'];
+                return $this->{$callback}($object, $name, $objectConfig);
+            }
+        }
+
+        return new Response("NULL");
     }
 
     protected function buildForm($object, $fieldConfig)
@@ -426,6 +518,15 @@ class AdminController extends AbstractController
                                     ->end()
                                 ->end()
                             ->end()
+                            ->arrayNode('actions')
+                                ->useAttributeAsKey('name')
+                                ->prototype('array')
+                                    ->children()
+                                        ->scalarNode('controller')->end()
+                                        ->scalarNode('label')->end()
+                                    ->end()
+                                ->end()
+                            ->end()
                             ->arrayNode('fields')
                                 ->useAttributeAsKey('name')
                                 ->prototype('array')
@@ -447,6 +548,9 @@ class AdminController extends AbstractController
                                         ->end()
                                         ->scalarNode('type')
                                             ->defaultNull()
+                                        ->end()
+                                        ->scalarNode('salt')
+                                            ->defaultValue('salt')
                                         ->end()
                                         ->booleanNode('orderable')
                                             ->defaultTrue()

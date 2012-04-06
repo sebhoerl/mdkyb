@@ -40,9 +40,15 @@ class Member implements UserInterface
      */
     private $roles = array();
 
+    /**
+     * @ORM\Column(type="string", length=32)
+     */
+    private $registrationKey;
+
     public function __construct()
     {
         $this->salt = md5(uniqid(mt_rand(), true));
+        $this->registrationKey = '';
     }
 
     public function getEmail()
@@ -112,5 +118,20 @@ class Member implements UserInterface
     public function setRoles(array $roles)
     {
         $this->roles = $roles;
+    }
+
+    public function getRegistrationKey()
+    {
+        return $this->registrationKey;
+    }
+
+    public function setRegistrationKey($registrationKey)
+    {
+        $this->registrationKey = $registrationKey;
+    }
+
+    public function generateKey()
+    {
+        $this->registrationKey = md5(uniqid());
     }
 }
