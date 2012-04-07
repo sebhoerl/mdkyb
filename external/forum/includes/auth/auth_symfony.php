@@ -1,29 +1,22 @@
 <?php
 
 include_once __DIR__ . '/../functions_user.php';
-
-require_once  __DIR__ . '/../../../../app/bootstrap.php.cache';
-require_once __DIR__ . '/../../../../app/autoload.php';
+require_once __DIR__ . '/../../../../external/ExternalService.php';
 
 use Mdkyb\WebsiteBundle\Entity\Member;
 
-function symfony_path($suffix)
-{
-    $uri = $_SERVER['REQUEST_URI'];
-    $uri = preg_replace('@/forum(.*)$@', '', $uri);
-    $uri .= $suffix;
-    return $uri;
-}
-
 function symfony_redirect_login()
 {
-    header('Location: ' . symfony_path('/login'));
+    $service = ExternalService::getInstance();
+    header('Location: ' . $service->generatePath('/login'));
     exit();
 }
 
-function symfony_get_phpbb_user(Member $member)
+function symfony_get_phpbb_user()
 {
     global $db;
+    $service = ExternalService::getInstance();
+    $member = $service->getUser();
 
     $id = $member->getForumId();
     if ($id == 0) {
@@ -39,16 +32,10 @@ function symfony_get_phpbb_user(Member $member)
             'user_regdate'          => time(),
         ));
 
-        $sql = sprintf("UPDATE Member SET forumId =%d WHERE id='%d'", $id, $member->getId());
-        $db->sql_query($sql);
-
-        $member->setForumId($id);
-        $token = unserialize($_SESSION['_symfony2']['attributes']['_security_secured']);
-        $token->setUser($member);
-        $_SESSION['_symfony2']['attributes']['_security_secured'] = serialize($token);
+        $service->changeField('forumId', $id);
     }
 
-    $sql = "SELECT * FROM " . USERS_TABLE . " WHERE user_id='$id'";
+    $sql = sprintf('SELECT * FROM %s WHERE user_id=%d', USERS_TABLE, $id);
     $result = $db->sql_query($sql);
 
     if ($row = $db->sql_fetchrow($result)) {
@@ -58,36 +45,11 @@ function symfony_get_phpbb_user(Member $member)
     }
 }
 
-function symfony_get_user()
-{
-    session_write_close();
-    $recover = session_name("PHPSESSID");
-    session_start();
-
-    if (isset($_SESSION['_symfony2'])) {
-        $symfony = $_SESSION['_symfony2'];
-        if (isset($symfony['attributes']))
-        {
-            $attributes = $symfony['attributes'];
-            if (isset($attributes['_security_secured'])) {
-                $token = $attributes['_security_secured'];
-                $token = unserialize($token);
-                $return = $token->getUser();
-            }
-        }
-    }
-
-    session_write_close();
-    session_name($recover);
-    session_start();
-
-    return $return;
-}
-
 function autologin_symfony()
 {
-    if (null !== ($user = symfony_get_user())) {
-        return symfony_get_phpbb_user($user);
+    $service = ExternalService::getInstance();
+    if (null !== ($user = $service->getUser())) {
+        return symfony_get_phpbb_user();
     } else {
         symfony_redirect_login();
     }
@@ -97,7 +59,8 @@ function autologin_symfony()
 
 function validate_session_symfony($row)
 {
-    if (null === ($symfony = symfony_get_user())) {
+    $service = ExternalService::getInstance();
+    if (null === ($symfony = $service->getUser())) {
         symfony_redirect_login();
         return false;
     }
@@ -107,7 +70,8 @@ function validate_session_symfony($row)
 
 function logout_symfony()
 {
-    header('Location: ' . symfony_path('/logout'));
+    $service = ExternalService::getInstance();
+    header('Location: ' . $service->generatePath('/logout'));
     exit();
 }
 
@@ -120,5 +84,4 @@ function login_symfony($username, $password)
         'error_msg'=> '',
         'user_row'=> $row,
     );
-    return autologin_symfony();
 }
