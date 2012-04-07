@@ -74,7 +74,7 @@ objects:
         label: Mitglieder
         description: Verwaltung der Mitglieder
         entity: Mdkyb\WebsiteBundle\Entity\Member
-        identifier: email
+        identifier: id
         fields:
             name:
                 label: Name

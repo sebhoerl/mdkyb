@@ -20,14 +20,12 @@ class LoadBlogPosts extends AbstractFixture implements OrderedFixtureInterface
         $post1 = new BlogPost();
         $post1->setTitle('Blog Post Eins');
         $post1->setContent('Das ist ein kleienr Test.');
-        $post1->setAuthor($this->getReference('admin-member'));
         $post1->setPublishedAt(new Datetime('now -1 days'));
         $post1->setCreatedAt(new Datetime('now -3 days'));
 
         $post2 = new BlogPost();
         $post2->setTitle('Blog Post Zwei');
         $post2->setContent('Das ist ein kleienr Test.');
-        $post2->setAuthor($this->getReference('test-member'));
         $post2->setPublishedAt(new Datetime('now -20 minutes'));
         $post2->setCreatedAt(new Datetime('now -20 minutes'));
 

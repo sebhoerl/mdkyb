@@ -13,6 +13,12 @@ class Member implements UserInterface
 {
     /**
      * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
      * @ORM\Column(type="string", length=100)
      */
     private $email;
@@ -45,10 +51,19 @@ class Member implements UserInterface
      */
     private $registrationKey;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $forumId = 0;
+
     public function __construct()
     {
         $this->salt = md5(uniqid(mt_rand(), true));
         $this->registrationKey = '';
+    }
+
+    public function getId(){
+        return $this->id;
     }
 
     public function getEmail()
@@ -97,6 +112,16 @@ class Member implements UserInterface
     public function setSalt($salt)
     {
         $this->salt = $salt;
+    }
+
+    public function getForumId()
+    {
+        return $this->forumId;
+    }
+
+    public function setForumId($id)
+    {
+        $this->forumId = $id;
     }
 
     public function eraseCredentials()

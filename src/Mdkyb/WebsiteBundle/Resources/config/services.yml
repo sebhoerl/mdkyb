@@ -4,9 +4,3 @@ services:
         arguments: [@router]
         tags:
             - { name: twig.extension }
-
-    mdkyb.website.lifecycle_listener:
-        class: Mdkyb\WebsiteBundle\EventListener\LifecycleListener
-        arguments: [@service_container]
-        tags:
-            - { name: doctrine.event_listener, event: prePersist }

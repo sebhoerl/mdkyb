@@ -57,16 +57,16 @@ class MemberController extends AbstractController
     }
 
     /**
-     * @Route("/register/{email}/{key}", name="register")
+     * @Route("/register/{id}/{key}", name="register")
      * @Template()
      */
-    public function registerAction($email, $key)
+    public function registerAction($id, $key)
     {
         if (strlen($key) == 32)
         {
-            $member = $this->getEntityManager()->getRepository('MdkybWebsiteBundle:Member')->find($email);
+            $member = $this->getEntityManager()->getRepository('MdkybWebsiteBundle:Member')->find($id);
             if ($member === null) {
-                throw $this->createNotFoundException('Ein Benutzer mit dieser Adresse existiert nicht!');
+                throw $this->createNotFoundException('Der Benutzer existiert nicht!');
             }
 
             if ($member->getRegistrationKey() === $key) {

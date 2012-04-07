@@ -45,9 +45,6 @@ class LoadMembers extends AbstractFixture implements ContainerAwareInterface, Or
         $manager->persist($test);
 
         $manager->flush();
-
-        $this->addReference('admin-member', $admin);
-        $this->addReference('test-member', $test);
     }
 
     public function getOrder()

@@ -80,3 +80,17 @@ es ssh access auf dem Webspace gibt). Ansonsten hier die Schrittfolge:
 * Auf dem Server muss noch per FTP das /app/cache Verzeichnis komplett geleert werden.
 
 Durch das Script ist der ganze Vorgang sehr einfach geworden. Es sollten keine großartigen Schwierigkeiten auftreten.
+
+Forum
+=====
+
+Um das Forum mit der Website zu verbinden, muss es auf der Website einen allgemeinen Administrator-Account geben (muss über phpmyadmin erstellt werden, falls es noch keinen gibt). Damit der Benutzer mit dem Administrator-Benutzer des Forums verbunden wird, muss seine "forumId" unbedingt "2" sein. Dieser Administratoraccount kann dann dazu verwendet werden, anderen Benutzern der Website Administratorrechte zu geben.
+
+Es soll nicht das ganze phpBB Projekt mit im Repository verwaltet werden. Darum sollte phpBB manuell im Ordner web/forum installiert werden. Die Änderungen am Quelltext des Forums werden durch das Überschreiben der Daten aus external/forum über die Dateien aus web/forum übernommen. Dieser Ordner wird auch vom Deploy-Script im deploy Ordner erstellt. 
+Um die nötigen Dateien umzukopieren, kann das "external.sh" Script verwendet werden.
+
+Einstellungen:
+
+* Unter General > Registration Settings sollte die Registrierung ausgeschaltet sein.
+* Unter General > Authentication  "Symfony" als Authentication Method auswählen
+

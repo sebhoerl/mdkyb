@@ -28,7 +28,7 @@ class Email
 
     /**
      * @ORM\ManyToOne(targetEntity="Member")
-     * @ORM\JoinColumn(name="member_email", referencedColumnName="email")
+     * @ORM\JoinColumn(name="member_id", referencedColumnName="id")
      */
     private $member;
 
