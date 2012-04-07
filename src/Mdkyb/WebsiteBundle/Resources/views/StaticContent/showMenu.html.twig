@@ -1,1 +1,12 @@
-{{ menu.content|static_content|raw }}
+{% block content %}
+
+    <a href="{{ url('index') }}">Home</a>
+    <a href="{{ url('gallery') }}">Gallerie</a>
+    <a href="{{ url('downloads') }}">Downloads</a>
+    <a href="{{ url('jobs') }}">Jobs</a>
+
+    {% for page in menu %}
+        <a href="{{ url('static', {slug:page.name}) }}">{{ page.title }}</a>
+    {% endfor %}
+
+{% endblock %}

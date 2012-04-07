@@ -2,19 +2,29 @@
 
 namespace Mdkyb\WebsiteBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Datetime;
 
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 /**
  * @ORM\Entity
+ * @UniqueEntity("name")
  */
 class StaticContent
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $name;
 
     /**
      * @ORM\Column(type="string")
@@ -41,9 +51,14 @@ class StaticContent
         return $this->id;
     }
 
-    public function setId($id)
+    public function getName()
     {
-        $this->id = $id;
+        return $this->name;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
     }
 
     public function getTitle()

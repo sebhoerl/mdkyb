@@ -128,8 +128,8 @@ objects:
         entity: Mdkyb\WebsiteBundle\Entity\StaticContent
         identifier: id
         fields:
-            id:
-                label: ID
+            name:
+                label: Name
             title:
                 label: Titel
             content:

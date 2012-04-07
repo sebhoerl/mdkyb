@@ -16,7 +16,7 @@ class StaticContentController extends AbstractController
     {
         $page = $this->getEntityManager()
             ->getRepository('MdkybWebsiteBundle:StaticContent')
-            ->find($slug);
+            ->findOneBy(array('name' => $slug));
 
         if ($page === null)
         {
@@ -33,14 +33,8 @@ class StaticContentController extends AbstractController
     {
         $menu = $this->getEntityManager()
             ->getRepository('MdkybWebsiteBundle:StaticContent')
-            ->find('menu');
-
-        if ($menu === null)
-        {
-            return new Response('');
-        }
+            ->findAll();
 
         return array('menu' => $menu);
-        return $this->render('MdkybWebsiteBundle:StaticContent:menu.html.twig', array('page' => $menu));
     }
 }
