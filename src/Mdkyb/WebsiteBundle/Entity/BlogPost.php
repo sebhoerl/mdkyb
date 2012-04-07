@@ -28,12 +28,6 @@ class BlogPost
     private $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Member")
-     * @ORM\JoinColumn(name="member_email", referencedColumnName="email")
-     */
-    private $author;
-
-    /**
      * @ORM\Column(type="datetime");
      */
     private $publishedAt;
@@ -72,16 +66,6 @@ class BlogPost
     public function setContent($content)
     {
         $this->content = $content;
-    }
-
-    public function setAuthor(Member $member)
-    {
-        $this->author = $member;
-    }
-
-    public function getAuthor()
-    {
-        return $this->author;
     }
 
     public function getCreatedAt()
