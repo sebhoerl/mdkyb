@@ -102,6 +102,10 @@ objects:
                 label: Forum ID
                 list: false
                 type: integer
+            wikiId:
+                label: Wiki ID
+                list: false
+                type: integer
         actions:
             send_registration_mail:
                 label: Registrierungsmail senden

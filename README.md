@@ -79,18 +79,33 @@ es ssh access auf dem Webspace gibt). Ansonsten hier die Schrittfolge:
 
 * Auf dem Server muss noch per FTP das /app/cache Verzeichnis komplett geleert werden.
 
-Durch das Script ist der ganze Vorgang sehr einfach geworden. Es sollten keine großartigen Schwierigkeiten auftreten.
+* Nötige Einstellungen für Forum und Wiki übernehmen (vor allem an LocalSettings.php und auth_symfony.php denken!). Siehe weiter unten.
+
+Durch das Deploy-Script ist der ganze Vorgang sehr einfach geworden. Es sollten keine großartigen Schwierigkeiten auftreten.
 
 Forum
 =====
 
-Um das Forum mit der Website zu verbinden, muss es auf der Website einen allgemeinen Administrator-Account geben (muss über phpmyadmin erstellt werden, falls es noch keinen gibt). Damit der Benutzer mit dem Administrator-Benutzer des Forums verbunden wird, muss seine "forumId" unbedingt "2" sein. Dieser Administratoraccount kann dann dazu verwendet werden, anderen Benutzern der Website Administratorrechte zu geben.
+* Damit die Migrations funktionieren muss das Forum in einer anderen Database als die Hauptseite installiert werden!
 
-Es soll nicht das ganze phpBB Projekt mit im Repository verwaltet werden. Darum sollte phpBB manuell im Ordner web/forum installiert werden. Die Änderungen am Quelltext des Forums werden durch das Überschreiben der Daten aus external/forum über die Dateien aus web/forum übernommen. Dieser Ordner wird auch vom Deploy-Script im deploy Ordner erstellt. 
-Um die nötigen Dateien umzukopieren, kann das "external.sh" Script verwendet werden.
+* Um das Forum mit der Website zu verbinden, muss es auf der Website einen allgemeinen Administrator-Account geben (muss über phpmyadmin erstellt werden, falls es noch keinen gibt). 
+* Damit der Benutzer mit dem Administrator-Benutzer des Forums verbunden wird, muss seine "forumId" unbedingt "2" sein. Dieser Administratoraccount kann dann dazu verwendet werden, anderen Benutzern der Website Administratorrechte zu geben.
+
+* Es soll nicht das ganze phpBB Projekt mit im Repository verwaltet werden. Darum sollte phpBB manuell im Ordner web/forum installiert werden. 
+* Die Änderungen am Quelltext des Forums werden durch das Überschreiben der Daten aus external/forum über die Dateien aus web/forum übernommen. 
+Um die nötigen Dateien umzukopieren, kann das "external.php" Script verwendet werden.
 
 Einstellungen:
 
 * Unter General > Registration Settings sollte die Registrierung ausgeschaltet sein.
 * Unter General > Authentication  "Symfony" als Authentication Method auswählen
 
+Wiki
+====
+
+* Damit die Migrations funktionieren muss das Wiki in einer anderen Database als die Hauptseite installiert werden!
+* Der Administratoraccount der Website sollte die Wiki ID 1 bekommen, sodass der Account mit dem Administrator des Wikis verbunden ist.
+* Das Wiki sollte als "private" installiert werden, sodass nur eingeloggt Besucher Einsicht haben.
+* Das Wiki sollte separat im Ordner web/wiki installiert werden, es ist nicht im Repository enthalten. 
+* Um die Authentifizierung mit der Website zu verbinden muss der Inhalt von external/wiki/LocalSettings.append.php an die vorkonfigurierte Datei LocalSettings.php des Wikis angehangen werden (die Datei existiert erst nach der Installation). 
+* Das Script external.php macht dies automatisch!

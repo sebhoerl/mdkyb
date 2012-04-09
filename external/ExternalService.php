@@ -16,6 +16,9 @@ class ExternalService
     private $connection = null;
     private $user = null;
 
+    private $sessionId = null;
+    private $sessionName = null;
+
     static public function getInstance()
     {
         return static::$instance ? static::$instance : (static::$instance = new static());
@@ -47,15 +50,31 @@ class ExternalService
         return $uri;
     }
 
+    protected function enterSession()
+    {
+        session_write_close();
+        $this->sessionId = session_id($_COOKIE['mdkyb']);
+        $this->sessionName = session_name("mdkyb");
+        session_start();
+    }
+
+    protected function leaveSession()
+    {
+        session_write_close();
+        if ($this->sessionId) {
+            session_id($this->sessionId);
+            session_name($this->sessionName);
+            session_start();
+        }
+    }
+
     public function getUser()
     {
         if ($this->user) {
             return $this->user;
         }
 
-        session_write_close();
-        $recover = session_name("PHPSESSID");
-        session_start();
+        $this->enterSession();
 
         if (isset($_SESSION['_symfony2'])) {
             $symfony = $_SESSION['_symfony2'];
@@ -70,27 +89,21 @@ class ExternalService
             }
         }
 
-        session_write_close();
-        session_name($recover);
-        session_start();
+        $this->leaveSession();
 
         return $this->user;
     }
 
     public function setUser($user)
     {
-        session_write_close();
-        $recover = session_name("PHPSESSID");
-        session_start();
+        $this->enterSession();
 
         $token = unserialize($_SESSION['_symfony2']['attributes']['_security_secured']);
         $token->setUser($user);
         $token = serialize($token);
         $_SESSION['_symfony2']['attributes']['_security_secured'] = $token;
         
-        session_write_close();
-        session_name($recover);
-        session_start();
+        $this->leaveSession();
     }
 
     public function changeField($field, $value)

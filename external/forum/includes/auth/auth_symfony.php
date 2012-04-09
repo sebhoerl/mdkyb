@@ -3,8 +3,6 @@
 include_once __DIR__ . '/../functions_user.php';
 require_once __DIR__ . '/../../../../external/ExternalService.php';
 
-use Mdkyb\WebsiteBundle\Entity\Member;
-
 function symfony_redirect_login()
 {
     $service = ExternalService::getInstance();

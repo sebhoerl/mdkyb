@@ -56,6 +56,11 @@ class Member implements UserInterface
      */
     private $forumId = 0;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $wikiId = 0;
+
     public function __construct()
     {
         $this->salt = md5(uniqid(mt_rand(), true));
@@ -122,6 +127,16 @@ class Member implements UserInterface
     public function setForumId($id)
     {
         $this->forumId = $id;
+    }
+
+    public function getWikiId()
+    {
+        return $this->wikiId;
+    }
+
+    public function setWikiId($id)
+    {
+        $this->wikiId = $id;
     }
 
     public function eraseCredentials()
