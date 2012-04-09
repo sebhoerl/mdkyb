@@ -10,6 +10,7 @@ cp -r app deploy
 rm -rf deploy/app/logs/*
 rm -rf deploy/app/cache/*
 cp -r src deploy
+cp -r external deploy
 find vendor -name .git -type d | xargs rm -rf
 cp -r vendor deploy
 cp -r web deploy
