@@ -83,6 +83,19 @@ es ssh access auf dem Webspace gibt). Ansonsten hier die Schrittfolge:
 
 Durch das Deploy-Script ist der ganze Vorgang sehr einfach geworden. Es sollten keine großartigen Schwierigkeiten auftreten.
 
+Administrator
+=============
+
+Wer schnell mit phpMyAdmin einen Administratoraccount erstellen will kann diese Testdaten verwenden:
+
+    email:    admin@example.org (beliebig)
+    name:     Administrator (beliebig)
+    password: CydA6O7GIsXAtLjpLpcIeuM4H/Q=
+    salt:     ad23b44dc2240f55f56eccff2d918632
+    roles:    a:1:{i:0;s:10:"ROLE_ADMIN";}
+
+Das Passwort, das damit eingestellt wird ist *"adminpw"*.
+
 Forum
 =====
 
