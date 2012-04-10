@@ -129,7 +129,7 @@ class AdminController extends AbstractController
         $mailer->send($message);
 
         return $this->redirect($this->generateUrl(
-            'admin_edit', array('name' => $objectName, 'id' => $object->getEmail())
+            'admin_edit', array('name' => $objectName, 'id' => $object->getId())
         ));
     }
 

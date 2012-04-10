@@ -22,5 +22,5 @@ app/console doctrine:migrations:migrate $migration_version --no-interaction
 app/console doctrine:migrations:migrate --write-sql
 mv *.sql deploy
 app/console doctrine:migrations:migrate --no-interaction
-
+echo OK
 bin/vendors install --reinstall
