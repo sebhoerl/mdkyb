@@ -32,15 +32,19 @@ installiert werden. Das ist eine ganze Menge (das muss dann allerdings nicht all
 geladen werden). Dieser Befehl sollte immer ausgeführt werden, wenn man sein Repository updated. Es wird
 nicht immer alles runtergeladen, sondern nur updates, es dauert also nur beim ersten mal etwas länger.
 
-Außerdem sollte das Datenbankschema geupdated werden. Das geschieht über das Migrations plugin:
+Außerdem sollte das Datenbankschema geupdated werden. Das geschieht über diesen Befehl:
 
-    app/console doctrine:migrations:migrate --no-interaction
+    app/console doctrine:schema:update --force
 
-Für den Testbetrieb sind bereits Fixtures (testdaten) vorbereitet, die über diesen Befehl in die Datenbank geschrieben werden:
+Wie auch immer die Datenbank zur Zeit aussieht, sie wird auf den Stand des Projekts gebracht. Sollte das 
+einmal fehlschlagen, kann man einfach die gesamte Datenbank droppen, neu erstellen und das Schema komplett
+neu erstellen lassen.
+
+Für den Testbetrieb sind bereits Fixtures (Testdaten) vorbereitet, die über diesen Befehl in die Datenbank geschrieben werden:
 
     app/console doctrine:fixtures:load
 
-Für faule gibt es auch die "update_test.sh", die alle drei Befehle automatisch ausführt. Hat man eine neue Version herunterladen
+Für Faule gibt es auch die "update_test.sh", die alle drei Befehle automatisch ausführt. Hat man eine neue Version herunterladen
 muss man also theoretisch nur dieses Script ausführen und alles sollte funktionieren und auf dem neusten Stand sein.
 
 Ist die Datenbank richtig konfiguriert und funktioniert der
@@ -53,35 +57,45 @@ erreichbar sein.
 Was ist zu beachten
 ===================
 
-Symfony nutzt Doctrine, eine sogenannte ORM (Object Relational Mapper). Das bedeutet, dass man PHP Klassen erstellt und Informationen hinzufügt, wie diese in der Datenbank abgebildet werden sollen. Alles was mit dem Erstellen, Updaten, Löschen usw. von solchen Klassen (Entities) zu tun hat, übernimmt Doctrine. Man sollte also nicht manuell an der Struktur der Datenbank rumspielen (manuell Daten ändern ist kein Problem). Es wird nämlich das Migrations Plugin benutzt. Mit dem Migrations Plugin kann man verschiedene Zustände der Datenbank speichern (z.B. zuerst ist nur eine BlogEntry Klasse da, dann ist eine User Klasse da, usw usf.). Jeder Zustand hat dann eine bestimmte ID (=Version), zu der man immer wieder zurückswitchen kann. Die Migrations wissen also, welche SQL Queries sie ausführen müssen, um zu einer bestimmten Version "vorwärts" zu kommen, aber sie wissen auch welche Befehle benötigt werden um "rückwärts" zu gehen. Ändert man manuell das Schema der Datenbank, dann passen die Befehle nicht mehr und man hat Chaos. (In diesem Fall ist es dann aber trotzdem möglich, die Datenbank komplett zu löschen und die Migrations von 0 bis zur aktuellen Version durchlaufen zu lassen, dann hat man wieder ein valides Schema).
+Wenn Änderungen an den Entities/der Datenbank vorgenommen werden, sollte die zugehörige SQL query zunächst mit folgendem Befehl ausgegeben werden (NOCH BEVOR MAN DIE ÄNDERUNGEN IN DIE EIGENE DATENBANK ÜBERNIMMT!):
 
-Grundsätzlich sollte es kein Problem sein, in seiner Testinstallation einfach SQLite zu verwenden, sodass man keinen Datenbankserver installieren muss. Ich glaube dabei kann es Probleme geben, wenn man Migrations backuppen will, aber das sollte in der Regel gar nicht nötig sein (außer man will deployen, siehe unten).
+    app/console doctrine:schema:update --dump-sql
+
+Diese Befehle sollten nun ans Ende der "history.sql" kopiert werden. Sobald man per git einen Commit erstellt ist das Changeset dann
+mit der aktuellen Revision verbunden und man kann später auf dem Production Host ohne Probleme nachvollziehen, welche Queries ausgeführt werden müssen, um zur aktuellen Version zu kommen. 
+
+Man kann die Queries auch einfach an die Datei anhängen:
+
+    app/console doctrine:schema:update --dump-sql >> history.sql
 
 Deployment
 ==========
 
-Für das Deployen der Seite auf den Production Host werde ich ein automatisches Script erstellen (falls
-es ssh access auf dem Webspace gibt). Ansonsten hier die Schrittfolge:
+Hier ist die Schrittfolge zum deployen:
 
 * Auf dem Server index.html erstellen / htaccess ändern, sodass eine Nachricht angezeigt wird, dass an der Seite gebastelt wird (mal sehen wie wir das genau machen).
 
-* Datenbank backuppen (per phpMyAdmin).
+* Datenbank backuppen (per phpMyAdmin). 
 
 * Dateien backuppen (per FTP).
 
-* Ich habe das Shellscript "deploy.sh" hinzugefügt. Es erstellt einen Ordner "deploy", in den alle relevanten Dateien hinein kopiert werden (git Verzeichnisse und ähnliches werden ausgelassen). Außerdem muss man die aktuelle Migration Version des Servers eingeben (siehe https://bitbucket.org/blogsh/mdkyb/wiki/Home). Das Script erstellt eine SQL-Datei im "deploy" Verzeichnis, die auf dem Server mit phpmyadmin ausgeführt werden kann um die Datenbank zu updaten. Das Update bringt die Datenbank auf die aktuelle Version aus dem Repository. Man muss also lediglich die SQL Queries ausführen und die Dateien auf dem Server mit denen aus /deploy überschreiben. Das Script stellt danach automatisch wieder die vollständigen vendors her (daher der lange Update-Prozess. Zu diesem Zeitpunkt ist das Deploy-Verzeichnis aber schon komplett fertig).
+* Aus dem Wiki auf bitbucket entnehmen, auf welchem Commit der Production Host ist.
 
-* Herausfinden, welche Migration die aktuelle ist in der lokalen Kopie (wurde automatisch wieder zurückgesetzt vom Script):
+* Ich habe das Shellscript "deploy.sh" hinzugefügt. Es erstellt einen Ordner "deploy", in den alle relevanten Dateien hinein kopiert werden (git Verzeichnisse und ähnliches werden ausgelassen). Man muss also lediglich die Dateien auf dem Server mit denen aus /deploy überschreiben. Ausnahme ist die *parameters.ini*, die entweder später aus dem Backup zurückkopiert oder gar nicht erst überschrieben werden sollte. Das Script stellt nach dem Erstellen des deploy-Verzeichnisses automatisch wieder die vollständigen vendors her (daher der lange Update-Prozess. Zu diesem Zeitpunkt ist das Deploy-Verzeichnis aber schon komplett fertig). Es sind lediglich ein paar Besonderheiten beim Forum und beim Wiki zu beachten (siehe unten). Wenn an diesen keine Änderungen vorgenommen wurden, muss man nichts beachten. Ob an Forum/Wiki etwas geändert wurde, kann einfach per git überprüft werden:
 
-    app/console doctrine:migrations:status
+    git diff [PRODUCTION COMMIT] external
 
-* Den Wert von "Current version" (z.B. 20120402183001) ins Wiki (https://bitbucket.org/blogsh/mdkyb/wiki/Home) übernehmen. DAs ist wichtig, damit das Updaten der Datenbank immer glatt läuft.
+* Um die Datenbank zu updaten, muss lediglich herausgefunden werden, welche SQL Queries seit dem Commit des Production Hosts in der history.sql hinzugekommen sind und diese auf dem Server per phpmyadmin ausführen:
+
+    git diff [PRODUCTION COMMIT] history.sql
+
+* Nun muss der Hash des aktuellen Commits herausgefunden werden. Dieser wird dann einfach ins bitbucket Wiki unter https://bitbucket.org/blogsh/mdkyb/wiki/Home übernommen.
+
+    git rev-parse HEAD
 
 * Auf dem Server muss noch per FTP das /app/cache Verzeichnis komplett geleert werden.
 
-* Nötige Einstellungen für Forum und Wiki übernehmen (vor allem an LocalSettings.php und auth_symfony.php denken!). Siehe weiter unten.
-
-Durch das Deploy-Script ist der ganze Vorgang sehr einfach geworden. Es sollten keine großartigen Schwierigkeiten auftreten.
+* Die htaccess/index.html Änderungen aus dem ersten Schritt rückgängig machen.
 
 Administrator
 =============
@@ -96,12 +110,15 @@ Wer schnell mit phpMyAdmin einen Administratoraccount erstellen will kann diese 
 
 Das Passwort, das damit eingestellt wird ist *"adminpw"*.
 
+Ein Account mit den Daten "admin@mdkyb.dev" und "adminpw" wird durch die vorgefertigten Fixtures erstellt.
+
 Forum
 =====
 
-* Damit die Migrations funktionieren muss das Forum in einer anderen Database als die Hauptseite installiert werden!
+* Damit die Schema Updates funktionieren muss das Forum *evtl.* in einer anderen Database als die Hauptseite installiert werden.
 
-* Um das Forum mit der Website zu verbinden, muss es auf der Website einen allgemeinen Administrator-Account geben (muss über phpmyadmin erstellt werden, falls es noch keinen gibt). 
+* Um das Forum mit der Website zu verbinden, muss es auf der Website einen allgemeinen Administrator-Account geben.
+
 * Damit der Benutzer mit dem Administrator-Benutzer des Forums verbunden wird, muss seine "forumId" unbedingt "2" sein. Dieser Administratoraccount kann dann dazu verwendet werden, anderen Benutzern der Website Administratorrechte zu geben.
 
 * Es soll nicht das ganze phpBB Projekt mit im Repository verwaltet werden. Darum sollte phpBB manuell im Ordner web/forum installiert werden. 
@@ -113,12 +130,12 @@ Einstellungen:
 * Unter General > Registration Settings sollte die Registrierung ausgeschaltet sein.
 * Unter General > Authentication  "Symfony" als Authentication Method auswählen
 
-Wiki
-====
+MediaWiki
+=========
 
-* Damit die Migrations funktionieren muss das Wiki in einer anderen Database als die Hauptseite installiert werden!
+* Damit die Schema Updates funktionieren muss das MediaWiki *evtl.* in einer anderen Database als die Hauptseite installiert werden!
 * Der Administratoraccount der Website sollte die Wiki ID 1 bekommen, sodass der Account mit dem Administrator des Wikis verbunden ist.
-* Das Wiki sollte als "private" installiert werden, sodass nur eingeloggt Besucher Einsicht haben.
-* Das Wiki sollte separat im Ordner web/wiki installiert werden, es ist nicht im Repository enthalten. 
+* Das MediaWiki sollte als "private" installiert werden, sodass nur eingeloggt Besucher Einsicht haben.
+* Das MediaWiki sollte separat im Ordner web/wiki installiert werden, es ist nicht im Repository enthalten. 
 * Um die Authentifizierung mit der Website zu verbinden muss der Inhalt von external/wiki/LocalSettings.append.php an die vorkonfigurierte Datei LocalSettings.php des Wikis angehangen werden (die Datei existiert erst nach der Installation). 
 * Das Script external.php macht dies automatisch!
