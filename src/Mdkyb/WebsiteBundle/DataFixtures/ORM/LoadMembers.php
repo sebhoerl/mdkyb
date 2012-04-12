@@ -11,6 +11,9 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 use Mdkyb\WebsiteBundle\Entity\Member;
 
+/**
+ * Loads member fixtures
+ */
 class LoadMembers extends AbstractFixture implements ContainerAwareInterface, OrderedFixtureInterface
 {
     private $container;

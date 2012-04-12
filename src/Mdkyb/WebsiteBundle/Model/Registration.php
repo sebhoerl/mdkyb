@@ -2,6 +2,9 @@
 
 namespace Mdkyb\WebsiteBundle\Model;
 
+/**
+ * Model for the registration process
+ */
 class Registration
 {
     private $password;

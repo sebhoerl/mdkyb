@@ -2,11 +2,18 @@
 
 require_once __DIR__ . '/../../external/ExternalService.php';
 
+/**
+ * Tries to login a user based on the session information of Symfony
+ *
+ * @see Mediawiki documentation
+ */
 function symfony_login($user, &$result)
 {
     wfSetupSession();
 
     $service = ExternalService::getInstance();
+
+    // Redirect to login page if no user can be found
     if (null === ($member = $service->getUser())) {
         $service = ExternalService::getInstance();
         header('Location: ' . $service->generatePath('/login'));
@@ -14,6 +21,8 @@ function symfony_login($user, &$result)
     }
 
     $id = $member->getWikiId();
+
+    // Create new Mediawiki user if no ID is set
     if ($id == 0) {
         $title = Title::newFromText($member->getName());
         if (null === $title) {
@@ -50,6 +59,11 @@ function symfony_login($user, &$result)
     return false;
 }
 
+/**
+ * Handles MediaWiki's logout event.
+ *
+ * @see Mediawiki documentation
+ */
 function symfony_logout($user)
 {
     $service = ExternalService::getInstance();

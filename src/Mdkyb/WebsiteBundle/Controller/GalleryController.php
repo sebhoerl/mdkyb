@@ -9,9 +9,14 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 
 use Datetime;
 
+/**
+ * Handles gallery requests
+ */
 class GalleryController extends AbstractController
 {
     /**
+     * Shows all images
+     * 
      * @Route("/gallery", name="gallery")
      * @Template()
      */

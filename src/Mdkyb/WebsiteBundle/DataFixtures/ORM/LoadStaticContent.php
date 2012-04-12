@@ -7,6 +7,9 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 use Mdkyb\WebsiteBundle\Entity\StaticContent;
 
+/**
+ * Loads static page fixtures
+ */
 class LoadStaticContent implements FixtureInterface
 {
     public function load(ObjectManager $manager)

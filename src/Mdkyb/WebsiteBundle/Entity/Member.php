@@ -170,6 +170,9 @@ class Member implements UserInterface
         $this->registrationKey = $registrationKey;
     }
 
+    /**
+     * Generates a new registration key
+     */
     public function generateKey()
     {
         $this->registrationKey = md5(uniqid());

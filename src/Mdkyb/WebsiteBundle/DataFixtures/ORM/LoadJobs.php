@@ -8,6 +8,9 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Mdkyb\WebsiteBundle\Entity\Job;
 use Datetime;
 
+/**
+ * Loads job fixtures
+ */
 class LoadJobs implements FixtureInterface
 {
     public function load(ObjectManager $manager)

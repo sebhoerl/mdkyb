@@ -13,6 +13,9 @@ use Datetime;
 
 use Mdkyb\WebsiteBundle\Entity\BlogPost;
 
+/**
+ * Loads blog post fixtures
+ */
 class LoadBlogPosts extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)

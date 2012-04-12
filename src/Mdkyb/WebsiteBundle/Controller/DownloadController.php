@@ -9,9 +9,14 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 
 use Datetime;
 
+/**
+ * Handles download section requests
+ */
 class DownloadController extends AbstractController
 {
     /**
+     * Lists the downloads
+     * 
      * @Route("/downloads", name="downloads")
      * @Template()
      * @Secure(roles="IS_AUTHENTICATED_FULLY")
@@ -26,6 +31,8 @@ class DownloadController extends AbstractController
     }
 
     /**
+     * Shows a certain download
+     * 
      * @Route("/download/{id}", name="download")
      * @Secure(roles="IS_AUTHENTICATED_FULLY")
      */

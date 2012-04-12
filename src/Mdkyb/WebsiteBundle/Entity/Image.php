@@ -102,6 +102,9 @@ class Image
         return $this->getUploadPath() . '/' . $this->thumbname;
     }
 
+    /**
+     * Moves an uploaded image to the destination directory
+     */
     public function upload()
     {
         if (null !== $this->file) {
@@ -146,6 +149,8 @@ class Image
     }
 
     /**
+     * Deletes the corresponding file if an image is removed
+     * 
      * @ORM\PostRemove()
      */
     public function removeUpload()

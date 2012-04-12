@@ -3,6 +3,9 @@
 include_once __DIR__ . '/../functions_user.php';
 require_once __DIR__ . '/../../../../external/ExternalService.php';
 
+/**
+ * Redirects the user to Symfony's login page
+ */
 function symfony_redirect_login()
 {
     $service = ExternalService::getInstance();
@@ -10,6 +13,11 @@ function symfony_redirect_login()
     exit();
 }
 
+/**
+ * Returns a phpBB user row for a Member
+ * 
+ * @return array
+ */
 function symfony_get_phpbb_user()
 {
     global $db;
@@ -17,6 +25,8 @@ function symfony_get_phpbb_user()
     $member = $service->getUser();
 
     $id = $member->getForumId();
+
+    // Add new user 
     if ($id == 0) {
         $id = user_add(array(
             'username'              => $member->getName(),
@@ -43,6 +53,11 @@ function symfony_get_phpbb_user()
     }
 }
 
+/**
+ * Tries to login a user based on Symfony's session user.
+ * 
+ * @return array User row
+ */
 function autologin_symfony()
 {
     $service = ExternalService::getInstance();
@@ -55,6 +70,12 @@ function autologin_symfony()
     return array();
 }
 
+/**
+ * Validates phpBB's session user based on Symfony's user
+ * 
+ * @param  array $row phpBB user row
+ * @return boolean
+ */
 function validate_session_symfony($row)
 {
     $service = ExternalService::getInstance();
@@ -66,6 +87,9 @@ function validate_session_symfony($row)
     return $symfony->getForumId() == $row['user_id'];
 }
 
+/**
+ * Handles phpBB's logout event
+ */
 function logout_symfony()
 {
     $service = ExternalService::getInstance();
@@ -73,6 +97,13 @@ function logout_symfony()
     exit();
 }
 
+/**
+ * Handles phpBB's login event (for administration)
+ * 
+ * @param string $username
+ * @param string $password
+ * @return array User row
+ */
 function login_symfony($username, $password)
 {
     $row = autologin_symfony();

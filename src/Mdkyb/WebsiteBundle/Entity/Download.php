@@ -135,6 +135,9 @@ class Download
         return $second;
     }
 
+    /**
+     * Moves an uploaded file to the destination directory
+     */
     public function upload()
     {
         if (null !== $this->file) {
@@ -151,6 +154,8 @@ class Download
     }
 
     /**
+     * Removes the file of a removed download
+     * 
      * @ORM\PostRemove()
      */
     public function removeUpload()

@@ -8,11 +8,16 @@ use Symfony\Component\HttpFoundation\Response;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Datetime;
 
+/**
+ * Handles all blog requests
+ */
 class BlogController extends AbstractController
 {
     const POSTS_PER_PAGE = 10;
 
     /**
+     * Lists paginated blog posts
+     * 
      * @Route("/", name="index")
      * @Route("/blog")
      * @Route("/blog/page/{page}", name="blog_page")

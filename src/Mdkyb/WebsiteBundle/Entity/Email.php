@@ -5,6 +5,8 @@ namespace Mdkyb\WebsiteBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Represents a spooled email
+ * 
  * @ORM\Entity
  */
 class Email

@@ -9,11 +9,16 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 
 use Datetime;
 
+/**
+ * Handles the job section
+ */
 class JobController extends AbstractController
 {
     const POSTS_PER_PAGE = 10;
 
     /**
+     * Lists all jobs
+     * 
      * @Route("/jobs", name="jobs")
      * @Template()
      * @Secure(roles="IS_AUTHENTICATED_FULLY")
@@ -29,6 +34,8 @@ class JobController extends AbstractController
     }
 
     /**
+     * Shows a certain job offer
+     * 
      * @Route("/job/{id}", name="job_show")
      * @Template()
      * @Secure(roles="IS_AUTHENTICATED_FULLY")

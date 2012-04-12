@@ -9,9 +9,14 @@ use Mdkyb\WebsiteBundle\Model\Registration;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
+/**
+ * Handles member section requests
+ */
 class MemberController extends AbstractController
 {
     /**
+     * Displays the login page
+     * 
      * @Route("/login", name="login")
      * @Template()
      */
@@ -21,6 +26,8 @@ class MemberController extends AbstractController
     }
 
     /**
+     * Displays a user's profile
+     * 
      * @Route("/profile", name="profile")
      * @Secure(roles="IS_AUTHENTICATED_FULLY")
      * @Template()
@@ -36,18 +43,24 @@ class MemberController extends AbstractController
     }
 
     /**
+     * Dummy route for login_check
+     * 
      * @Route("/login_check", name="login_check")
      */
     public function loginCheckAction()
     {}
 
     /**
+     * Dummy route for logout
+     * 
      * @Route("/logout", name="logout")
      */
     public function logoutAction()
     {}
 
     /**
+     * Displays a messages that the registration has been completed
+     * 
      * @Route("/registration_complete", name="registration_complete")
      * @Template()
      */
@@ -57,6 +70,9 @@ class MemberController extends AbstractController
     }
 
     /**
+     * Displays a form to set a new password if the user has a valid
+     * registration key.
+     * 
      * @Route("/register/{id}/{key}", name="register")
      * @Template()
      */

@@ -6,9 +6,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Handles the static pages
+ */
 class StaticContentController extends AbstractController
 {
     /**
+     * Shows a static page
+     * 
      * @Route("/static/{slug}", name="static")
      * @Template()
      */
@@ -27,6 +32,8 @@ class StaticContentController extends AbstractController
     }
 
     /**
+     * Shows the menu for the static pages
+     * 
      * @Template()
      */
     public function showMenuAction()

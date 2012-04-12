@@ -5,7 +5,7 @@
 /vendor/
 /app/config/parameters.ini
 /deploy
-/uploads/
-/web/uploads/
-/web/forum/
-/web/wiki/
+/uploads/*
+/web/uploads/*
+/web/forum/*
+/web/wiki/*

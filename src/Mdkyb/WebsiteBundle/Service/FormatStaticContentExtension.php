@@ -7,7 +7,7 @@ use Twig_Filter_Method;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
- * Replaces [[page]] in static contents with the corresponding URL 
+ * Provies a Twig filter that formats static content
  */
 class FormatStaticContentExtension extends Twig_Extension
 {
@@ -18,6 +18,12 @@ class FormatStaticContentExtension extends Twig_Extension
         $this->router = $router;
     }
 
+    /**
+     * Formats static content
+     * 
+     * @param string $text Unformatted text
+     * @return string HTML-formatted text
+     */
     public function format($text)
     {
         $router = $this->router;
