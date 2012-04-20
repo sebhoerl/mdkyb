@@ -64,7 +64,7 @@ mit der aktuellen Revision verbunden und man kann später auf dem Production Hos
 
 Man kann die Queries auch einfach an die Datei anhängen:
 
-    app/console doctrine:schema:update --dump-sql >> history.sql
+    app/console doctrine:schema:update --dump-sql >> history.sql && echo ";" >> history.sql
 
 Deployment
 ==========

@@ -61,6 +61,11 @@ class Member implements UserInterface
      */
     private $wikiId = 0;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $paid;
+
     public function __construct()
     {
         $this->salt = md5(uniqid(mt_rand(), true));
@@ -168,6 +173,16 @@ class Member implements UserInterface
     public function setRegistrationKey($registrationKey)
     {
         $this->registrationKey = $registrationKey;
+    }
+
+    public function setPaid($paid)
+    {
+        $this->paid = $paid;
+    }
+
+    public function getPaid()
+    {
+        return $this->paid;
     }
 
     /**

@@ -69,6 +69,12 @@
                             {{ attribute(object, name) }}
                         {% elseif field.format == 'date' %}
                             {{ attribute(object, name)|date }}
+                        {% elseif field.format == 'boolean' %}
+                            {% if attribute(object, name) %}
+                                true
+                            {% else %}
+                                false
+                            {% endif %}
                         {% elseif field.format == 'list' %}
                             {% for item in attribute(object, name) %}
                                 {{ item }}

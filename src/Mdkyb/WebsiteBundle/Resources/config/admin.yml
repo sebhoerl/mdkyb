@@ -106,6 +106,12 @@ objects:
                 label: Wiki ID
                 list: false
                 type: integer
+            paid:
+                label: Beitrag bezahlt?
+                type: checkbox
+                format: boolean
+                options:
+                    required: false
         actions:
             send_registration_mail:
                 label: Registrierungsmail senden
