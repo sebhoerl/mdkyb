@@ -29,7 +29,7 @@ class MemberController extends AbstractController
      * Displays a user's profile
      * 
      * @Route("/profile", name="profile")
-     * @Secure(roles="IS_AUTHENTICATED_FULLY")
+     * @Secure(roles="ROLE_MEMBER")
      * @Template()
      */
     public function profileAction()

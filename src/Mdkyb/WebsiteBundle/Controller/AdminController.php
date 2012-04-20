@@ -9,6 +9,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Swift_Message;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use JMS\SecurityExtraBundle\Annotation\Secure;
+
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 use Mdkyb\WebsiteBundle\Entity\Email;
 
@@ -39,6 +42,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/email", name="admin_email")
      * @Template()
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function emailAction()
     {
@@ -76,6 +80,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/email/spool", name="admin_email_spool")
      * @Template()
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function spoolEmailAction()
     {
@@ -165,6 +170,10 @@ class AdminController extends AbstractController
         $template = 'MdkybWebsiteBundle:Admin:list.html.twig';
 
         $objectConfig = $configuration['objects'][$name];
+
+        if (null !== ($role = $objectConfig['secure']) && !$this->get('security.context')->isGranted($role)) {
+            throw new AccessDeniedHttpException();
+        }
 
         $fields = $objectConfig['fields'];
         array_walk($fields, function(&$config, $name) {
@@ -338,6 +347,10 @@ class AdminController extends AbstractController
 
         $objectConfig = $configuration['objects'][$name];
 
+        if (null !== ($role = $objectConfig['secure']) && !$this->get('security.context')->isGranted($role)) {
+            throw new AccessDeniedHttpException();
+        }
+
         $object = $this->getEntityManager()->getRepository($objectConfig['entity'])->find($id);
         $form = $this->buildForm($object, $objectConfig['fields']);
 
@@ -409,6 +422,11 @@ class AdminController extends AbstractController
         $template = 'MdkybWebsiteBundle:Admin:delete.html.twig';
 
         $objectConfig = $configuration['objects'][$name];
+
+        if (null !== ($role = $objectConfig['secure']) && !$this->get('security.context')->isGranted($role)) {
+            throw new AccessDeniedHttpException();
+        }
+
         $object = $this->getEntityManager()->getRepository($objectConfig['entity'])->find($id);
 
         $request = $this->getRequest();
@@ -437,6 +455,10 @@ class AdminController extends AbstractController
         $template = 'MdkybWebsiteBundle:Admin:create.html.twig';
 
         $objectConfig = $configuration['objects'][$name];
+
+        if (null !== ($role = $objectConfig['secure']) && !$this->get('security.context')->isGranted($role)) {
+            throw new AccessDeniedHttpException();
+        }
 
         $object = new $objectConfig['entity'];
         $form = $this->buildForm($object, $objectConfig['fields']);
@@ -500,6 +522,11 @@ class AdminController extends AbstractController
         $template = 'MdkybWebsiteBundle:Admin:delete.html.twig';
 
         $objectConfig = $configuration['objects'][$name];
+
+        if (null !== ($role = $objectConfig['secure']) && !$this->get('security.context')->isGranted($role)) {
+            throw new AccessDeniedHttpException();
+        }
+        
         $object = $this->getEntityManager()->getRepository($objectConfig['entity'])->find($id);
 
         foreach ($objectConfig['actions'] as $aname => $actionConfig) {
@@ -580,6 +607,9 @@ class AdminController extends AbstractController
                                 ->defaultValue('id')
                             ->end()
                             ->scalarNode('save_handler')
+                                ->defaultNull()
+                            ->end()
+                            ->scalarNode('secure')
                                 ->defaultNull()
                             ->end()
                             ->arrayNode('ordering')

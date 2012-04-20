@@ -6,8 +6,8 @@ security:
             iterations: 22
 
     role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_WEB:         [ROLE_MEMBER, ROLE_SHOW_ADMIN]
+        ROLE_ADMIN:       [ROLE_MEMBER, ROLE_WEB]
 
     providers:
         members:
@@ -31,4 +31,4 @@ security:
             anonymous: ~
 
     access_control:
-        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_SHOW_ADMIN }

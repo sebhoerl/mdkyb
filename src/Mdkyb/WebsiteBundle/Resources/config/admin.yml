@@ -75,6 +75,7 @@ objects:
         description: Verwaltung der Mitglieder
         entity: Mdkyb\WebsiteBundle\Entity\Member
         identifier: id
+        secure: ROLE_ADMIN
         fields:
             name:
                 label: Name
@@ -86,10 +87,9 @@ objects:
                 type: choice
                 options:
                     choices:
-                        ROLE_ADMIN: Administrationsbereich
-                        ROLE_MEMBER_ADMIN: Nutzerverwaltung
-                        ROLE_BLOG_ADMIN: Blogverwaltung
-                        ROLE_JOB_ADMIN: Jobangebotverwaltung
+                        ROLE_ADMIN: Administrator
+                        ROLE_WEB: Webmaster
+                        ROLE_MEMBER: Mitglied
                     multiple: true
             password:
                 label: Passwort

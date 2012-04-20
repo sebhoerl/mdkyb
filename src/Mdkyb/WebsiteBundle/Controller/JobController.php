@@ -21,7 +21,7 @@ class JobController extends AbstractController
      * 
      * @Route("/jobs", name="jobs")
      * @Template()
-     * @Secure(roles="IS_AUTHENTICATED_FULLY")
+     * @Secure(roles="ROLE_MEMBER")
      */
     public function listAction()
     {
@@ -38,7 +38,7 @@ class JobController extends AbstractController
      * 
      * @Route("/job/{id}", name="job_show")
      * @Template()
-     * @Secure(roles="IS_AUTHENTICATED_FULLY")
+     * @Secure(roles="ROLE_MEMBER")
      */
     public function showAction($id)
     {
