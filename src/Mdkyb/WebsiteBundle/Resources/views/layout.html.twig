@@ -1,28 +1,31 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>{% block title '' %} - Magdeburger Kybernetiker</title>
+        <title>{% block title '' %} - Verein Magdeburger Kybernetiker</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.5.3/modernizr.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <link href="{{ asset('bundles/mdkybwebsite/less.main.css') }}" rel="stylesheet" type="text/css" />
+        <link href='http://fonts.googleapis.com/css?family=Cantarell:400,700' rel='stylesheet' type='text/css'>
+        {% block head '' %}
     </head>
     <body>
-        {% block menu %}
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <a href="{{ url('profile') }}">{{ app.user.name }}</a> |
-                <a href="{{ url('logout') }}">Abmelden</a>
-            {% else %}
-                <a href="{{ url('login') }}">Einloggen</a>
-            {% endif %}
-            |
-            {% render "MdkybWebsiteBundle:StaticContent:showMenu" %}
-            |
-            <a href="/forum">Forum</a>
-            <a href="/wiki">Wiki</a>
-        {% endblock %}
-        <hr />
-        {% block content '' %}
-        <hr />
-        {% if is_granted('ROLE_SHOW_ADMIN') %}
-        <a href="{{ url('admin_index') }}">Administrationsbereich</a>
-        {% endif %}
+        <div id="container">
+            <div id="left">
+                <a href="{{ url('index') }}"><img src="{{ asset('bundles/mdkybwebsite/logo.png') }}" alt="Logo" /></a>
+                <a href="{{ url('index') }}">VEREIN MAGDEBURGER KYBERNETIKER</a>
+<br /><br />
+<a href="https://twitter.com/mdkyb" class="twitter-follow-button" data-show-count="false" data-lang="de">@mdkyb folgen</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+            </div>
+            <div id="nav">
+                {% render "MdkybWebsiteBundle:StaticContent:showMenu" %}
+            </div>
+            <div id="content">
+                {% block content '' %}
+            </div>
+        </div>
+        <script src="{{ asset('bundles/mdkybwebsite/dropdown.js') }}"></script>
     </body>
 </html>

@@ -1,12 +1,65 @@
 {% block content %}
+    <ul>
+        <li>
+            <a href="{{ url('index') }}">HOME</a>
+        </li>
 
-    <a href="{{ url('index') }}">Home</a>
-    <a href="{{ url('gallery') }}">Gallerie</a>
-    <a href="{{ url('downloads') }}">Downloads</a>
-    <a href="{{ url('jobs') }}">Jobs</a>
+        <li>
+            <a href="">VEREIN</a> &#x25BE;
+            <ul>
+                {% for page in menu %}
+                    <li>
+                        <a href="{{ url('static', {slug:page.name}) }}">{{ page.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
 
-    {% for page in menu %}
-        <a href="{{ url('static', {slug:page.name}) }}">{{ page.title }}</a>
-    {% endfor %}
+        <li>
+            <a href="{{ url('gallery') }}">GALLERIE</a>
+        </li>
+
+        <li>
+            <a href="{{ url('downloads') }}">DOWNLOADS</a>
+        </li>
+
+        <li>|</li>
+
+        <li>
+            <a href="">INTERN</a> &#x25BE;
+            <ul>
+                <li>
+                    <a href="{{ url('jobs') }}">JOBS</a>
+                </li>
+
+                <li>
+                    <a href="/forum">FORUM</a>
+                </li>
+
+                <li>
+                    <a href="/wiki">WIKI</a>
+                </li>
+            </ul>
+        </li>
+
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <li>
+                <a href="{{ url('profile') }}">DEIN PROFIL</a>
+            </li>
+            <li>
+                <a href="{{ url('logout') }}">LOGOUT</a>
+            </li>
+        {% else %}
+            <li>
+                <a href="{{ url('login') }}">LOGIN</a>
+            </li>
+        {% endif %}
+        {% if is_granted('ROLE_SHOW_ADMIN') %}
+            <li>|</li>
+            <li>
+                <a href="{{ url('admin_index') }}">ADMIN</a>
+            </li>
+        {% endif %}
+    </ul>
 
 {% endblock %}

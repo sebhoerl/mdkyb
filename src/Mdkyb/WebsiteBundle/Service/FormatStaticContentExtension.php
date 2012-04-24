@@ -28,7 +28,7 @@ class FormatStaticContentExtension extends Twig_Extension
     {
         $router = $this->router;
 
-        return preg_replace_callback('/\[\[(.*?)\]\]/', function($match) use ($router) {
+        $text = preg_replace_callback('/\[\[(.*?)\]\]/', function($match) use ($router) {
             list(, $slug) = $match;
             switch ($slug) {
                 case '_index':
@@ -43,6 +43,8 @@ class FormatStaticContentExtension extends Twig_Extension
                     return $router->generate('static', array('slug' => trim($slug)));
             }
         }, $text);
+
+        return $text;
     }
 
     public function getFilters()

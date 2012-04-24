@@ -1,4 +1,6 @@
-/web/bundles/
+/web/bundles/JMS
+/web/bundles/Sensio
+/web/bundles/Symfony
 /app/bootstrap*
 /app/cache/*
 /app/logs/*

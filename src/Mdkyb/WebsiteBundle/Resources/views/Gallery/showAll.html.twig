@@ -2,14 +2,21 @@
 
 {% block title 'Gallerie' %}
 
+{% block head %}
+    <script src="{{ asset('bundles/mdkybwebsite/js/lightbox.js') }}"></script>
+    <link href="{{ asset('bundles/mdkybwebsite/css/lightbox.css') }}" rel="stylesheet" />
+{% endblock %}
+
 {% block content %}
 
-    <h1>Gallerie</h1>
+    <h1>GALLERIE</h1>
+
+    <p>Hier sind Bilder vom Verein zu finden.</p>
 
     {% for gallery in galleries %}
-    <h2>{{ gallery.title }}</h2>
+        <h2>{{ gallery.title }}</h2>
         {% for image in gallery.images %}
-            <a href="{{ asset('uploads/' ~ image.filename) }}"><img src="{{ asset('uploads/' ~ image.thumbname) }}" title="{{ image.title }}" alt="" /></a>
+            <a rel="lightbox[{{ gallery.title }}]" href="{{ asset('uploads/' ~ image.filename) }}"><img src="{{ asset('uploads/' ~ image.thumbname) }}" title="{{ image.title }}" alt="" /></a>
         {% endfor %}
     {% endfor %}
 

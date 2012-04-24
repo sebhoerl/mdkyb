@@ -4,18 +4,38 @@
 
 {% block content %}
 
-    <h1>Jobangebote</h1>
+    <h1>JOBANGEBOTE</h1>
+
+    <p>Hier findest du aktuellen Jobangebote von Kybernetikern für Kybernetiker!
 
     <h2>Jobs</h2>
-    {% for job in jobs if job.type == 'job' %}
-        <a href="{{ url('job_show', {id:job.id}) }}">{{ job.title }}</a>
-        gelisetet bis {{ job.expiresAt|date('d.m.Y') }}<br />
-    {% endfor %}
+    <table>
+        <tr><th>ANGEBOT</th><th>BIS</th></tr>
+        {% for job in jobs if job.type == 'job' %}
+            <tr>
+                <td>
+                    <a href="{{ url('job_show', {id:job.id}) }}">{{ job.title }}</a>
+                </td>
+                <td>
+                    {{ job.expiresAt|date('d.m.Y') }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
 
     <h2>Praktika</h2>
-    {% for job in jobs if job.type == 'training' %}
-        <a href="{{ url('job_show', {id:job.id}) }}">{{ job.title }}</a>
-        gelistet bis {{ job.expiresAt|date('d.m.Y') }}<br />
-    {% endfor %}
+    <table>
+        <tr><th>ANGEBOT</th><th>BIS</th></tr>
+        {% for job in jobs if job.type == 'training' %}
+            <tr>
+                <td>
+                    <a href="{{ url('job_show', {id:job.id}) }}">{{ job.title }}</a>
+                </td>
+                <td>
+                    {{ job.expiresAt|date('d.m.Y') }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
 
 {% endblock %}

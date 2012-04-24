@@ -4,19 +4,29 @@
 
 {% block content %}
 
-    <h1>Blog</h1>
+    <h1>HOME</h1>
+
+    <p>Hier gibt es aktuelle Neuigkeiten zum Verein.</p>
 
     {% for post in posts %}
         <h2>{{ post.title }}</h2>
-        {{ post.publishedAt|date('d.m.Y H:i:s') }}<br />
-        {{ post.content }}
+        <div class="p">
+            <p class="date">{{ post.publishedAt|date('d.m.Y H:i:s') }}</p>
+            <p>{{ post.content|raw }}</p>
+        </div>
+
     {% endfor %}
-    <br />
-    {% if page > 1%}
-        <a href="{{ url('blog_page', {page:page-1}) }}">Neuere Posts</a>
-    {% endif %}
-    {% if show_next %}
-        <a href="{{ url('blog_page', {page:page+1}) }}">Ältere Posts</a>
+    
+    {% if page > 1 or show_next %}
+        <h2>Navigation</h2>
+        <p>
+            {% if page > 1%}
+                <a href="{{ url('blog_page', {page:page-1}) }}">Neuere Posts</a>
+            {% endif %}
+            {% if show_next %}
+                <a style="float:right;" href="{{ url('blog_page', {page:page+1}) }}">Ältere Posts</a>
+            {% endif %}
+        </p>
     {% endif %}
 
 {% endblock %}

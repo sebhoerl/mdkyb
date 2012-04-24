@@ -6,8 +6,10 @@
 
     <h1>{{ job.title }}</h1>
 
-    gelistet bis {{ job.expiresAt|date('d.m.Y') }}<br />
-
-    {{ job.description }}
+    <p>Dieses Angebot ist gelistet bis {{ job.expiresAt|date('d.m.Y') }}</p>
+    <h2>Beschreibung</h2>
+    <p>
+        {{ job.description|raw }}
+    </p>
 
 {% endblock %}

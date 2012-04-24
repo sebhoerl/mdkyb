@@ -4,16 +4,42 @@
 
 {% block content %}
 
-    <h1>Downloads</h1>
+    <h1>DOWNLOADS</h1>
+
+    <p>Hier findest du wichtige Downloads, die den Verein betreffen.</p>
 
     <h2>Protokolle</h2>
-    {% for download in downloads if download.type == 'protocol' %}
-        <a href="{{ url('download', {id:download.id}) }}">{{ download.title }}</a> {{ download.displayType }}<br />
-    {% endfor %}
+    <table>
+        {% for download in downloads if download.type == 'protocol' %}
+            <tr>
+                <td>
+                    <a href="{{ url('download', {id:download.id}) }}">{{ download.title }}</a>
+                </td>
+                <td>
+                    {{ download.description }}
+                </td>
+                <td>
+                    {{ download.displayType }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
 
     <h2>Sonstiges</h2>
-    {% for download in downloads if download.type == 'misc' %}
-        <a href="{{ url('download', {id:download.id}) }}">{{ download.title }}</a> {{ download.displayType }}<br />
-    {% endfor %}
+    <table>
+        {% for download in downloads if download.type == 'misc' %}
+            <tr>
+                <td>
+                    <a href="{{ url('download', {id:download.id}) }}">{{ download.title }}</a>
+                </td>
+                <td>
+                    {{ download.description }}
+                </td>
+                <td>
+                    {{ download.displayType }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
 
 {% endblock %}
