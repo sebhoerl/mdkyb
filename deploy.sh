@@ -15,5 +15,5 @@ cp -r uploads deploy
 rm -rf deploy/uploads/*
 rm -rf deploy/web/uploads/*
 rm -rf vendor
-cp vendor_backup vendor
+cp -rf vendor_backup vendor
 rm -rf vendor_backup
