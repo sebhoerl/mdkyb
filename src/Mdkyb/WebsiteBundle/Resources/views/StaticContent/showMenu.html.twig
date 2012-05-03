@@ -42,7 +42,7 @@
             </ul>
         </li>
 
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
             <li>
                 <a href="{{ url('profile') }}">DEIN PROFIL</a>
             </li>

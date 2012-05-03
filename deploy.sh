@@ -5,6 +5,7 @@ mkdir -p deploy
 cp -r app deploy
 rm -rf deploy/app/logs/*
 rm -rf deploy/app/cache/*
+rm -rf deploy/app/config/parameters.ini
 cp -r src deploy
 cp -r external deploy
 cp -r vendor vendor_backup
