@@ -31,6 +31,7 @@ class LoadMembers extends AbstractFixture implements ContainerAwareInterface, Or
         $admin->setName('Administrator');
         $admin->setEmail('admin@mdkyb.dev');
         $admin->setRoles(array('ROLE_ADMIN'));
+        $admin->setPaid(true);
         
         $encoder = $factory->getEncoder($admin);
         $password = $encoder->encodePassword('adminpw', $admin->getSalt());
@@ -39,6 +40,7 @@ class LoadMembers extends AbstractFixture implements ContainerAwareInterface, Or
         $test = new Member();
         $test->setName('Test');
         $test->setEmail('test@mdkyb.dev');
+        $test->setPaid(true);
 
         $encoder = $factory->getEncoder($test);
         $password = $encoder->encodePassword('testpw', $test->getSalt());

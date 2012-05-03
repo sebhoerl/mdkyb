@@ -75,7 +75,7 @@ p
     padding-bottom: 20px;
 }
 
-ul#demo-list a
+ul a
 {
     background: url(../images/blue-arrow.png) no-repeat right 6px;
     padding-right: 10px;
@@ -113,7 +113,7 @@ ul li
     margin: 0 auto;
 }
 
-.symfony-content
+#symfony-content
 {
     background-color:           white;
     border:                     1px solid #DFDFDF;
@@ -122,19 +122,137 @@ ul li
     -webkit-border-radius:      16px;
     border-radius:              16px;
     margin-bottom:              20px;
-    word-wrap:                  break-word;
+}
+
+#symfony-header
+{
+    position: relative;
+    padding: 30px 30px 20px 30px;
+}
+
+#symfony-wrapper
+{
+    width:  970px;
+    margin: 0 auto;
+}
+
+#symfony-content
+{
+    background-color:           white;
+    border:                     1px solid #DFDFDF;
+    padding:                    50px;
+    -moz-border-radius:         16px;
+    -webkit-border-radius:      16px;
+    border-radius:              16px;
+    margin-bottom:              20px;
+}
+html, body
+{
+    background-color: #EFEFEF;
+}
+
+body
+{
+    font-size:        14px;
+    font-family:      "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+    color:            #313131;
+}
+
+a
+{
+    color:           #08C;
+    text-decoration: none;
+}
+
+a:hover
+{
+    text-decoration: underline;
+}
+
+strong
+{
+    font-weight: bold;
+}
+
+#symfony-header
+{
+    position: relative;
+    padding: 30px 30px 20px 30px;
+}
+
+#symfony-wrapper
+{
+    width:  970px;
+    margin: 0 auto;
+}
+
+#symfony-content
+{
+    background-color:           white;
+    border:                     1px solid #DFDFDF;
+    padding:                    50px;
+    -moz-border-radius:         16px;
+    -webkit-border-radius:      16px;
+    border-radius:              16px;
+    margin-bottom:              20px;
+}
+html, body
+{
+    background-color: #EFEFEF;
+}
+
+body
+{
+    font-size:        14px;
+    font-family:      "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+    color:            #313131;
+}
+
+a
+{
+    color:           #08C;
+    text-decoration: none;
+}
+
+a:hover
+{
+    text-decoration: underline;
+}
+
+strong
+{
+    font-weight: bold;
+}
+
+#symfony-header
+{
+    position: relative;
+    padding: 30px 30px 20px 30px;
+}
+
+#symfony-wrapper
+{
+    width:  970px;
+    margin: 0 auto;
+}
+
+#symfony-content
+{
+    background-color:           white;
+    border:                     1px solid #DFDFDF;
+    padding:                    50px;
+    -moz-border-radius:         16px;
+    -webkit-border-radius:      16px;
+    border-radius:              16px;
+    margin-bottom:              5px;
 }
 
 #symfony-search
 {
     position: absolute;
+
     top:   50px;
     right: 30px;
-}
-
-#symfony-search input[type="search"]
-{
-    -webkit-appearance: textfield;
 }
 
 #symfony-search-field
@@ -156,7 +274,7 @@ ul li
     display: none;
 }
 
-input[type=text], input[type=password]
+input[type=text]
 {
     border:      1px solid #DADADA;
     background:  white url(../images/field-background.gif) repeat-x left top;
@@ -215,79 +333,42 @@ input[type=text], input[type=password]
     filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#a7da39', endColorstr='#6a9211');
 }
 
-.symfony-blocks-welcome
+#symfony-wrapper
 {
-    overflow: hidden;
+    padding-top: 50px;
 }
 
-.symfony-blocks-welcome > div
+.symfony-blocks-install
 {
-    background-color: whitesmoke;
-    float:            left;
-    width:            240px;
-    margin-right:     14px;
-    text-align:       center;
-    padding:          26px 20px;
+    overflow:hidden;
 }
 
-.symfony-blocks-welcome > div.block-demo
+.symfony-blocks-install .symfony-block-logo
 {
-    margin-right: 0;
-}
-
-.symfony-blocks-welcome .illustration
-{
-    padding-bottom: 20px;
-}
-
-.symfony-blocks-help
-{
-    overflow: hidden;
-}
-
-.symfony-blocks-help
-{
-    margin-top: 30px;
-    padding:    18px;
-    border:     1px solid #E6E6E6;
-}
-
-.symfony-blocks-help > div
-{
-    width:        254px;
-    float:        left;
-}
-
-.flash-message
-{
-    padding: 10px;
-    margin: 5px;
-    margin-top: 15px;
-    background-color: #ffe;
-}
-
-.error
-{
-    color: red;
-}
-
-#login label, #contact_form label
-{
-    display: block;
     float: left;
-    width: 90px;
+    width: 358px;
 }
 
-ul#menu
+.symfony-blocks-install .symfony-block-content
 {
-    float: right;
-    margin-bottom: 20px;
+    float: left;
+    width: 510px;
+}
+
+.symfony-install-continue
+{
+    font-size:    0.95em;
     padding-left: 0;
 }
 
-#menu li
+.symfony-install-continue li
 {
-    padding-left: 0;
-    margin-right: 10px;
-    display: inline;
+    padding-bottom: 10px;
+}
+
+.version
+{
+    text-align: right;
+    font-size: 10px;
+    margin-right: 20px;
 }
