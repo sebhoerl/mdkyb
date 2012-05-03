@@ -42,7 +42,7 @@
             </ul>
         </li>
 
-        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        {% if is_granted('ROLE_MEMBER') %}
             <li>
                 <a href="{{ url('profile') }}">DEIN PROFIL</a>
             </li>
