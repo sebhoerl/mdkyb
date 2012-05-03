@@ -4,6 +4,12 @@
 
 {% block content %}
 
+<h2>EINLOGGEN</h2>
+
+{% if app.request.session.hasFlash('password_recovered') %}
+    <p class="flash">Das neue Passwort wurde übernommen.</p>
+{% endif %}
+
 <form action="{{ path('login_check') }}" method="post">
     <label for="email">E-Mail:</label>
     <input type="text" id="email" name="_username" value="" />
@@ -11,11 +17,12 @@
     <label for="password">Passwort:</label>
     <input type="password" id="password" name="_password" />
 
+    <label for="remember_me">Eingeloggt bleiben?</label>
+    <input type="checkbox" id="remember_me" name="_remember_me" checked />
+
     <button type="submit">Einloggen</button>
 </form>
 
-<hr />
-Es gibt einen Benutzer "test@mdkyb.dev" mit dem Passwort "testpw". Und es gibt einen Benutzer "admin@mdkyb.dev" mit dem Passwort "adminpw" und Administratorrechten.
-<hr />
+<p>Falls du dein Passwort vergessen hast, kannst du es <a href="{{ url('recover_password') }}">wiederherstellen</a>.</p>
 
 {% endblock %}

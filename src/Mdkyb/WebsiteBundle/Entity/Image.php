@@ -13,6 +13,7 @@ use Datetime;
 class Image
 {
     const THUMBNAIL_SIZE = 120;
+    const IMAGE_WIDTH = 900;
 
     /**
      * @ORM\Id
@@ -118,10 +119,12 @@ class Image
             $this->filename =  $id . '_image.' . $extension;
             $this->thumbname = $id . '_thumb.png';
 
-            $this->file->move($this->getUploadPath(), $this->filename);
+            /*$this->file->move($this->getUploadPath(), $this->filename);*/
 
             $size = static::THUMBNAIL_SIZE;
-            $path = $this->getUploadPath() . '/' . $this->filename;
+            /*$path = $this->getUploadPath() . '/' . $this->filename;*/
+            $path = $this->file->getPathname();
+            var_dump($path);
             
             switch ($extension) {
                 case 'jpg':
@@ -145,6 +148,16 @@ class Image
             $thumbnail = imagecreatetruecolor($size, $size);
             imagecopyresampled($thumbnail, $image, 0, 0, 0, 0, $size, $size, $shorter, $shorter);
             imagepng($thumbnail, $this->getUploadPath() . '/' . $this->thumbname);
+
+            if ($width <= static::IMAGE_WIDTH) {
+                $this->file->move($this->getUploadPath(), $this->filename);
+            } else {
+                $resizedWidth = static::IMAGE_WIDTH;
+                $resizedHeight = floor((static::IMAGE_WIDTH / $width) * $height);
+                $resized = imagecreatetruecolor($resizedWidth, $resizedHeight);
+                imagecopyresampled($resized, $image, 0, 0, 0, 0, $resizedWidth, $resizedHeight, $width, $height);
+                imagepng($resized, $this->getUploadPath() . '/' . $this->filename);
+            }
         }
     }
 

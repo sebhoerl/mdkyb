@@ -29,6 +29,13 @@ security:
                 path: /logout
                 target: /
             anonymous: ~
+            remember_me:
+                key: hsdfn98n23
+                lifetime: 604800
+                path: /
+
+    access_decision_manager:
+        strategy: unanimous
 
     access_control:
-        - { path: ^/admin, roles: ROLE_SHOW_ADMIN }
+        - { path: ^/admin, roles: [ROLE_SHOW_ADMIN, IS_AUTHENTICATED_FULLY] }

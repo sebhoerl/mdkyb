@@ -95,18 +95,18 @@ class AdminController extends AbstractController
                 ->setMaxResults(1)
                 ->getSingleResult();
 
-                $message = Swift_Message::newInstance()
-                    ->setSubject($email->getTitle())
-                    ->setFrom('no-reply@magdeburgerkybernetiker.de')
-                    ->setTo(array($email->getMember()->getEmail() => $email->getMember()->getName()))
-                    ->setBody($email->getContent())
-                ;
+            $message = Swift_Message::newInstance()
+                ->setSubject($email->getTitle())
+                ->setFrom('no-reply@magdeburgerkybernetiker.de')
+                ->setTo(array($email->getMember()->getEmail() => $email->getMember()->getName()))
+                ->setBody($email->getContent())
+            ;
 
-                $this->get('mailer')->send($message);
+            $this->get('mailer')->send($message);
 
-                $em = $this->getEntityManager();
-                $em->remove($email);
-                $em->flush();
+            $em = $this->getEntityManager();
+            $em->remove($email);
+            $em->flush();
         }
 
         return array('count' => $count, 'email' => $email);

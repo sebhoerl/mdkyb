@@ -127,7 +127,8 @@ p {
 }
 #content p,
 #content table,
-#content div.p {
+#content div.p,
+#content form {
   background-color: #f0f0f0;
   border: 1px solid #e6e6e6;
   border-radius: 5px 5px 5px 5px;
@@ -135,6 +136,22 @@ p {
   margin-right: 10px;
   margin-bottom: 10px;
   padding: 10px;
+}
+#content p.flash,
+#content table.flash,
+#content div.p.flash,
+#content form.flash {
+  background-color: #f0faf0;
+  border: 1px solid #64c864;
+  color: #326432;
+}
+#content p.badflash,
+#content table.badflash,
+#content div.p.badflash,
+#content form.badflash {
+  background-color: #faf0f0;
+  border: 1px solid #c86464;
+  color: #0a3232;
 }
 #content div.p p {
   border-width: 0px;
@@ -174,4 +191,20 @@ p {
 #content p.date {
   font-size: 12px;
   font-weight: bold;
+}
+#content form label {
+  display: block;
+  font-size: 12px;
+}
+#content form input {
+  margin-bottom: 10px;
+  display: block;
+}
+#content form input[type=text],
+#content form input[type=password],
+#content form input[type=email] {
+  width: 50%;
+  border: 1px solid #c8c8c8;
+  border-radius: 3px;
+  padding: 2px;
 }

@@ -9,6 +9,12 @@ use Mdkyb\WebsiteBundle\Model\Registration;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
+use Mdkyb\WebsiteBundle\Form\ChangePasswordType;
+use Mdkyb\WebsiteBundle\Model\ChangePasswordModel;
+
+use Symfony\Component\Form\FormError;
+use Swift_Message;
+
 /**
  * Handles member section requests
  */
@@ -35,11 +41,149 @@ class MemberController extends AbstractController
     public function profileAction()
     {
         $user = $this->get('security.context')->getToken()->getUser();
+        $request = $this->getRequest();
+        $em = $this->getEntityManager();
 
-        /* TODO: Implement form as soon as there are additional information
-         in the Member class. */
+        $passwordModel = new ChangePasswordModel();
+        $passwordForm = $this->createForm(new ChangePasswordType(), $passwordModel);
 
-        return array('user' => $user);
+        if ('POST' === $request->getMethod()) {
+            if ($request->request->has('change_password')) {
+                $passwordForm->bindRequest($request);
+
+                if ($passwordForm->isValid()) {
+                    $encFactory = $this->get('security.encoder_factory');
+                    $encoder = $encFactory->getEncoder($user);
+                    $password = $encoder->encodePassword($passwordModel->getOldPassword(), $user->getSalt());
+
+                    if ($password === $user->getPassword()) {
+                        $newPassword = $encoder->encodePassword($passwordModel->getNewPassword(), $user->getSalt());
+                        $user->setPassword($newPassword);
+                        $em->persist($user);
+                        $em->flush();
+
+                        $request->getSession()->setFlash('profile.password_changed', true);
+                        return $this->redirect($this->generateUrl('profile'));
+                    } else {
+                        $passwordForm['oldPassword']->addError(new FormError(
+                            'Das alte Passwort war falsch!'
+                        ));
+                    }
+                }
+            }
+        }
+
+        return array('user' => $user, 'password_form' => $passwordForm->createView());
+    }
+
+    protected function createRecoveryHash($user, $offset = 0) {
+        $id = $user->getId();
+        $password = $user->getPassword();
+
+        $now = time();
+        $hour = $now - $now % 3600 - $offset * 3600;
+
+        return md5('47&4$' . $password . $id . $hour);
+    }
+
+    protected function checkRecoveryHash($user, $hash) {
+        for ($i = 0; $i < 12; $i++) {
+            if ($this->createRecoveryHash($user, $i) === $hash) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Displays a form that recovers the password
+     * 
+     * @Route("/recover-password/{id}/{hash}", name="recover_password", defaults={"id"=0, "hash"=""})
+     * @Template()
+     */
+    public function recoverPasswordAction($id = 0, $hash = '')
+    {
+        $request = $this->getRequest();
+        $em = $this->getEntityManager();
+
+        if ($id == 0) {
+            $form = $this->createFormBuilder()
+                ->add('email', 'email', array('label' => 'E-Mail Addresse:'))
+                ->getForm();
+
+            if ('POST' === $request->getMethod()) {
+                $form->bindRequest($request);
+
+                if ($form->isValid()) {
+                    $data = $form->getData();
+
+                    if (null !== $user = $em->getRepository('MdkybWebsiteBundle:Member')->findOneByEmail($data['email'])) {
+
+                        $hash = $this->createRecoveryHash($user);
+
+                        $message = Swift_Message::newInstance()
+                            ->setSubject('Dein Passwort beim Verein Magdeburger Kybernetiker')
+                            ->setFrom('no-reply@magdeburgerkybernetiker.de')
+                            ->setTo(array($user->getEmail() => $user->getName()))
+                            ->setBody($this->renderView('MdkybWebsiteBundle:Member:recover_mail.html.twig', 
+                                array('user' => $user, 'hash' => $hash)
+                            ))
+                        ;
+
+                        $this->get('mailer')->send($message);
+
+                        $request->getSession()->setFlash('password_recovery', 'ok');
+                    } else {
+                        $request->getSession()->setFlash('password_recovery', 'error');
+                    }
+                }
+
+                return $this->redirect($this->generateUrl('recover_password'));
+            }
+
+            return array('state' => 'email', 'form' => $form->createView());
+        } else {
+            $user = $this->getEntityManager()->getRepository('MdkybWebsiteBundle:Member')->find($id);
+            if ($user === null) {
+                throw $this->createNotFoundException('Der Benutzer existiert nicht!');
+            }
+
+            if (!$this->checkRecoveryHash($user, $hash)) {
+                throw $this->createNotFoundException('Der Hash ist ungültig!');
+            }
+
+            $form = $this->createFormBuilder()
+                ->add('password', 'repeated', array(
+                    'type' => 'password',
+                    'options' => array('label' => 'Neues Passwort:'),
+                    'invalid_message' => 'Die Passwörter müssen übereinstimmen!'
+                ))
+                ->getForm();
+
+            $request = $this->getRequest();
+            if ($request->getMethod() == 'POST') {
+                $form->bindRequest($request);
+                
+                if ($form->isValid()) {
+                    $data = $form->getData();
+
+                    $encFactory = $this->get('security.encoder_factory');
+                    $encoder = $encFactory->getEncoder($user);
+                    $password = $encoder->encodePassword($data['password'], $user->getSalt());
+
+                    $user->setPassword($password);
+
+                    $em->persist($user);
+                    $em->flush();
+
+                    $request->getSession()->setFlash('password_recovered', true);
+                    return $this->redirect($this->generateUrl('login'));
+                }
+            }
+
+            return array('state' => 'password', 'form' => $form->createView(), 'user' => $user);
+        }
     }
 
     /**
@@ -91,6 +235,8 @@ class MemberController extends AbstractController
                 $form = $this->createFormBuilder($registration)
                     ->add('password', 'repeated', array(
                         'type' => 'password',
+                        'options' => array('label' => 'Passwort:'),
+                        'invalid_message' => 'Die Passwörter müssen übereinstimmen!'
                     ))
                     ->getForm();
 

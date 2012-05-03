@@ -91,7 +91,7 @@ class Member implements UserInterface
      */
     public function getUsername()
     {
-        return $this->name;
+        return $this->email;
     }
 
     public function getName()
@@ -145,10 +145,7 @@ class Member implements UserInterface
     }
 
     public function eraseCredentials()
-    {
-        $this->salt = null;
-        $this->password = null;
-    }
+    {}
 
     public function equals(UserInterface $user)
     {

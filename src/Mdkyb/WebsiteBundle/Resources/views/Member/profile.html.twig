@@ -4,5 +4,19 @@
 
 {% block content %}
     <h2>Dein Profil, {{ user.name }}</h2>
-    Bisher gibt es noch keine Einstellungen!
+
+    {% if app.request.session.hasFlash('profile.password_changed') %}
+        <p class="flash">Dein Passwort wurde geändert!</p>
+    {% endif %}
+
+    <p>Bisher gibt es noch keine weiteren Einstellungen in den Profilen.</p>
+
+    <h2>Passwort ändern</h2>
+    <form action="{{ path('profile') }}" method="post">
+
+        {{ form_widget(password_form) }}
+
+        <button type="submit">Password ändern</button>
+    </form>
+
 {% endblock %}
