@@ -11,6 +11,7 @@ cp -r vendor vendor_backup
 find vendor -name .git -type d | xargs rm -rf
 cp -r vendor deploy
 cp -r web deploy
+app/console assets:install deploy/web
 cp -r uploads deploy
 rm -rf deploy/uploads/*
 rm -rf deploy/web/uploads/*
