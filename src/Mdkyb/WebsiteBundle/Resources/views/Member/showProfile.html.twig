@@ -1,0 +1,16 @@
+{% extends 'MdkybWebsiteBundle::layout.html.twig' %}
+
+{% block title user.name %}
+
+{% block content %}
+
+    <h1>{{ user.name }}</h1>
+
+    <p>
+        {% if user.image is defined %}
+            <img class="avatar" src="{{ asset('uploads/' ~ user.image.thumbname) }}" alt="" />
+        {% endif %}
+        {{ user.info|raw }}
+        <span style="clear:both;width:100%;display:block;"></span>
+    </p>
+{% endblock %}

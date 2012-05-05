@@ -7,6 +7,12 @@
         <li>
             <a href="">VEREIN</a> &#x25BE;
             <ul>
+                <li>
+                    <a href="{{ url('board') }}">VORSTAND</a>
+                </li>
+                <li>
+                    <a href="{{ url('statute') }}">SATZUNG</a>
+                </li>
                 {% for page in menu %}
                     <li>
                         <a href="{{ url('static', {slug:page.name}) }}">{{ page.title }}</a>
@@ -26,10 +32,14 @@
         <li>|</li>
 
         <li>
-            <a href="">INTERN</a> &#x25BE;
+            <a href="{{ url('internal') }}">INTERN</a> &#x25BE;
             <ul>
                 <li>
                     <a href="{{ url('jobs') }}">JOBS</a>
+                </li>
+
+                <li>
+                    <a href="{{ url('members', {page:1}) }}">MITGLIEDER</a>
                 </li>
 
                 <li>

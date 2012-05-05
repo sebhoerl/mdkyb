@@ -5,11 +5,26 @@
 {% block content %}
     <h2>Dein Profil, {{ user.name }}</h2>
 
+    <p>Über dein Profil kannst du anderen Vereinsmitgliedern mitteilen wer du bist und was du tust.</p>
+
     {% if app.request.session.hasFlash('profile.password_changed') %}
         <p class="flash">Dein Passwort wurde geändert!</p>
     {% endif %}
 
-    <p>Bisher gibt es noch keine weiteren Einstellungen in den Profilen.</p>
+    {% if app.request.session.hasFlash('profile.profile_changed') %}
+        <p class="flash">Dein Profil wurde geändert!</p>
+    {% endif %}
+
+    <form action="{{ path('profile') }}" {{ form_enctype(profile_form) }} method="post">
+
+    {% if user.image is defined and user.image.id %}
+        <img class="avatar" src="{{ asset('uploads/' ~ user.image.thumbname) }}" alt="" />
+    {% endif %}
+
+        {{ form_widget(profile_form) }}
+
+        <button type="submit">Profil ändern</button>
+    </form>
 
     <h2>Passwort ändern</h2>
     <form action="{{ path('profile') }}" method="post">

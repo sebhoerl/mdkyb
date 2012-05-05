@@ -10,6 +10,10 @@ objects:
         identifier: id
         save_handler: processImage
         fields:
+            id:
+                label: ID
+                options:
+                    read_only: true
             title:
                 label: Titel
             file:
@@ -17,6 +21,9 @@ objects:
                 list: false
             gallery:
                 label: Gallerie
+                options:
+                    empty_value: Keine Gallerie
+                    required: false
     gallery:
         label: Gallerien
         description: Verwaltung der Gallerien
@@ -110,6 +117,22 @@ objects:
                 label: Beitrag bezahlt?
                 type: checkbox
                 format: boolean
+                options:
+                    required: false
+            function:
+                label: Funktion
+                type: choice
+                options:
+                    empty_value: Keine Funktion
+                    choices:
+                        1: Vorsitzender
+                        2: Stellvertretender Vorsitzender
+                        3: Finanzen
+                        4: Schriftführer
+                    required: false
+            info:
+                label: Profil
+                list: false
                 options:
                     required: false
         actions:

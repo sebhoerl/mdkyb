@@ -44,4 +44,26 @@ class StaticContentController extends AbstractController
 
         return array('menu' => $menu);
     }
+
+    /**
+     * Shows the links for the internal area
+     * 
+     * @Route("/intern", name="internal")
+     * @Template()
+     */
+    public function showInternalAreaAction()
+    {
+        return array();
+    }
+
+    /**
+     * Shows the statute
+     * 
+     * @Route("/satzung", name="statute")
+     * @Template()
+     */
+    public function showStatuteAction()
+    {
+        return array();
+    }
 }

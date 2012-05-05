@@ -1,0 +1,20 @@
+{% extends "MdkybWebsiteBundle::layout.html.twig" %}
+
+{% block title "Interner Bereich" %}
+
+{% block content %}
+    <h1>Interner Bereich</h1>
+    <ul>
+        <li>
+            <a href="{{ url('jobs') }}">JOBS</a>
+        </li>
+
+        <li>
+            <a href="/forum">FORUM</a>
+        </li>
+
+        <li>
+            <a href="/wiki">WIKI</a>
+        </li>
+    </ul>
+{% endblock %}

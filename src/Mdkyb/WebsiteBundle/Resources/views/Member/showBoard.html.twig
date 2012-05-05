@@ -1,0 +1,25 @@
+{% extends 'MdkybWebsiteBundle::layout.html.twig' %}
+
+{% block title "Vorstand" %}
+
+{% block content %}
+    <h1>VORSTAND</h1>
+
+    <p>Hier werden die Vorstandsmitglieder vorgestellt.</p>
+
+    {% for user in users %}
+        <h2>{{ user.name }} ({% spaceless %}
+            {% if user.function == 1 %}
+                Vorsitz
+            {% elseif user.function == 2 %}
+                Stellv. Vorsitz
+            {% elseif user.function == 3 %}
+                Finanzen
+            {% elseif user.function == 4 %}
+                Schriftführung
+            {% endif %}
+        {% endspaceless %})</h2>
+        <p>{{ user.info }}</p>
+    {% endfor %}
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'MdkybWebsiteBundle::layout.html.twig' %}
+
+{% block title 'Mitglieder' %}
+
+{% block content %}
+
+    <h1>MITGLIEDER</h1>
+
+    <table>
+        {% for user in users %}
+            <tr><td>
+                {% if user.image is defined %}
+                    <img class="avatar" src="{{ asset('uploads/' ~ user.image.thumbname) }}" alt="" />
+                {% endif %}
+            </td><td><a href="{{ url('show_member', {id:user.id}) }}">{{ user.name }}</a></td></tr>
+        {% endfor %}
+    </table>
+    
+    {% if page > 1 or show_next %}
+        <h2>Navigation</h2>
+        <p>
+            {% if page > 1%}
+                <a href="{{ url('members', {page:page-1}) }}">Neuere Posts</a>
+            {% endif %}
+            {% if show_next %}
+                <a style="float:right;" href="{{ url('members', {page:page+1}) }}">Ältere Posts</a>
+            {% endif %}
+        </p>
+    {% endif %}
+
+{% endblock %}

@@ -29,6 +29,16 @@ class Member implements UserInterface
     private $name;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $info;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $function;
+
+    /**
      * @ORM\Column(type="string", length=40)
      */
     private $password;
@@ -65,6 +75,11 @@ class Member implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $paid;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Image")
+     */
+    private $image;
 
     public function __construct()
     {
@@ -188,5 +203,42 @@ class Member implements UserInterface
     public function generateKey()
     {
         $this->registrationKey = md5(uniqid());
+    }
+
+    public function getInfo()
+    {
+        return $this->info;
+    }
+
+    public function setInfo($info)
+    {
+        $this->info = $info;
+    }
+
+    public function getFunction()
+    {
+        return $this->function;
+    }
+
+    public function setFunction($function)
+    {
+        $this->function = $function;
+    }
+
+    public function setImage(Image $image = null)
+    {
+        $this->image = $image;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function __sleep()
+    {
+        $properties = get_object_vars($this); 
+        unset($properties['image']); 
+        return array_keys($properties);
     }
 }

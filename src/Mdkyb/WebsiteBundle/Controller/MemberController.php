@@ -9,11 +9,16 @@ use Mdkyb\WebsiteBundle\Model\Registration;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
+use Mdkyb\WebsiteBundle\Form\ChangeProfileType;
 use Mdkyb\WebsiteBundle\Form\ChangePasswordType;
 use Mdkyb\WebsiteBundle\Model\ChangePasswordModel;
 
 use Symfony\Component\Form\FormError;
 use Swift_Message;
+
+use Datetime;
+
+use Mdkyb\WebsiteBundle\Entity\Image;
 
 /**
  * Handles member section requests
@@ -41,11 +46,24 @@ class MemberController extends AbstractController
     public function profileAction()
     {
         $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getEntityManager()->getRepository('MdkybWebsiteBundle:Member')->find($user->getId());
+
         $request = $this->getRequest();
         $em = $this->getEntityManager();
 
+        $newImage = new Image();
+        $imageExists = false;
+
+        if ($user->getImage() === null) {
+            $user->setImage($newImage);
+        } else {
+            $imageExists = true;
+        }
+
         $passwordModel = new ChangePasswordModel();
         $passwordForm = $this->createForm(new ChangePasswordType(), $passwordModel);
+
+        $profileForm = $this->createForm(new ChangeProfileType(), $user);
 
         if ('POST' === $request->getMethod()) {
             if ($request->request->has('change_password')) {
@@ -71,9 +89,35 @@ class MemberController extends AbstractController
                     }
                 }
             }
+
+            if ($request->request->has('change_profile')) {
+                $profileForm->bindRequest($request);
+
+                if ($profileForm->isValid()) {
+                    $image = $user->getImage();
+                    $image->setTitle($user->getName());
+
+                    if ($image->file !== null) {
+                        $image->upload();
+                        $em->persist($image);
+                    } elseif(!$imageExists) {
+                        $user->setImage(null);
+                    }
+
+                    $em->persist($user);
+                    $em->flush();
+
+                    $request->getSession()->setFlash('profile.profile_changed', true);
+                    return $this->redirect($this->generateUrl('profile'));
+                }
+            }
         }
 
-        return array('user' => $user, 'password_form' => $passwordForm->createView());
+        return array(
+            'user' => $user, 
+            'password_form' => $passwordForm->createView(), 
+            'profile_form' => $profileForm->createView()
+        );
     }
 
     protected function createRecoveryHash($user, $offset = 0) {
@@ -268,5 +312,61 @@ class MemberController extends AbstractController
         }
 
         throw $this->createNotFoundException('Der Key ist abgelaufen!');
+    }
+
+    /**
+     * Displays the member board
+     * 
+     * @Route("/vorstand", name="board")
+     * @Template()
+     */
+    public function showBoardAction()
+    {
+        $users = $this->getEntityManager()
+            ->createQuery('select u from MdkybWebsiteBundle:Member u where u.function > 0 order by u.function asc')
+            ->getResult();
+
+        return array('users' => $users);
+    }
+
+    const MEMBERS_PER_PAGE = 20;
+
+    /**
+     * Shows all members
+     * 
+     * @Route("/mitglieder/{page}", name="members")
+     * @Template()
+     */
+    public function showMembersAction($page = 1)
+    {
+        $posts = $this->getEntityManager()
+            ->createQuery('select u from MdkybWebsiteBundle:Member u order by u.name asc')
+            ->setMaxResults(static::MEMBERS_PER_PAGE)
+            ->setFirstResult(max(0, ((int)$page) - 1) * static::MEMBERS_PER_PAGE)
+            ->getResult();
+
+        $count = $this->getEntityManager()
+            ->createQuery('select count(u) from MdkybWebsiteBundle:Member u')
+            ->getSingleScalarResult();
+
+        $pageCount = ceil($count / static::MEMBERS_PER_PAGE);
+
+        return array('users' => $posts, 'page' => $page, 'show_next' => $page < $pageCount);
+    }
+
+    /**
+     * Shows a member
+     * 
+     * @Route("/mitglied/{id}", name="show_member")
+     * @Template()
+     */
+    public function showProfileAction($id)
+    {
+        $user = $this->getEntityManager()->getRepository('MdkybWebsiteBundle:Member')->find($id);
+        if ($user == null) {
+            throw $this->createNotFoundException('Die Seite existiert nicht!');
+        }
+
+        return array('user' => $user);
     }
 }

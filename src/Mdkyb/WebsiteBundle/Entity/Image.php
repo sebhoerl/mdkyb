@@ -68,7 +68,7 @@ class Image
         return $this->gallery;
     }
 
-    public function setGallery(Gallery $gallery)
+    public function setGallery(Gallery $gallery = null)
     {
         $this->gallery = $gallery;
     }

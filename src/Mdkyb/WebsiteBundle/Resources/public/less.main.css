@@ -208,3 +208,7 @@ p {
   border-radius: 3px;
   padding: 2px;
 }
+#content img.avatar {
+  float: right;
+  border-radius: 5px;
+}
