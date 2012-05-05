@@ -19,13 +19,13 @@
                 Schriftführung
             {% endif %}
         {% endspaceless %})</h2>
-        <p>
+        <div class="p">
             {% if user.image is defined %}
                 <img class="avatar" src="{{ asset('uploads/' ~ user.image.thumbname) }}" alt="" />
             {% endif %}
-            {{ user.info }}
+            {{ user.info|format_content(true)|raw }}
             <span style="clear:both;width:100%;display:block;"></span>
-        </p>
+        </div>
     {% endfor %}
 
 {% endblock %}

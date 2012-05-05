@@ -15,10 +15,10 @@
         <p class="flash">Dein Profil wurde geändert!</p>
     {% endif %}
 
-    <form action="{{ path('profile') }}" {{ form_enctype(profile_form) }} method="post">
+    <form action="" {{ form_enctype(profile_form) }} method="post">
 
     {% if user.image is defined and user.image.id %}
-        <img class="avatar" src="{{ asset('uploads/' ~ user.image.thumbname) }}" alt="" />
+        <img style="display: none;" class="avatar" src="{{ asset('uploads/' ~ user.image.thumbname) }}" alt="" />
     {% endif %}
 
         {{ form_widget(profile_form) }}
@@ -26,8 +26,19 @@
         <button type="submit">Profil ändern</button>
     </form>
 
-    <h2>Passwort ändern</h2>
-    <form action="{{ path('profile') }}" method="post">
+    <ul>
+        <li>Ein Sternchen (*) am Anfang einer Zeile erzeugt eine Liste.</li>
+        <li>Ebenfalls mit zwei Sternchen lassen sich bestimmte Dinge *<em>hervorheben</em>*.</li>
+        <li>Links werden automatisch verknüpft. Bestimmte Wortgruppen können verlinkt werden, indem man sie in [eckige Klammern] schreibt und die URL unmittelbar dahinter platziert.</li>
+        <li>Überschriften lassen sich erstellen, indem man in der nächsten Zeile mit mindestens fünf Bindstrichen ------ eine Unterstreichung andeutet.</li>
+        <li>Vorstandsmitglieder können die Zeile <code>### VORSTAND</code> einfügen. Alles was danach kommt, wird im öffentlichen Bereich angezeigt.</li>
+    </ul>
+
+    <h2>Vorschau</h2>
+    <p class="preview"></p>
+
+    <h2 id="password">Passwort ändern</h2>
+    <form action="#password" method="post">
 
         {{ form_widget(password_form) }}
 

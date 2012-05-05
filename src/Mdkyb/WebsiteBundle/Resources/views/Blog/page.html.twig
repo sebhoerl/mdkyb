@@ -10,7 +10,7 @@
         <h2>{{ post.title }}</h2>
         <div class="p">
             <p class="date">{{ post.publishedAt|date('d.m.Y H:i:s') }}</p>
-            <p>{{ post.content|raw }}</p>
+            <p>{{ post.content|format_content|raw }}</p>
         </div>
 
     {% endfor %}

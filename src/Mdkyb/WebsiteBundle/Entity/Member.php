@@ -29,7 +29,7 @@ class Member implements UserInterface
     private $name;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="text")
      */
     private $info;
 

@@ -27,3 +27,7 @@ CREATE TABLE MembershipApplication (id INT AUTO_INCREMENT NOT NULL, supporting T
 ;
 ALTER TABLE MembershipApplication CHANGE title title VARCHAR(255) DEFAULT NULL, CHANGE phone phone VARCHAR(255) DEFAULT NULL, CHANGE comment comment LONGTEXT DEFAULT NULL
 ;
+ALTER TABLE Job CHANGE description description LONGTEXT NOT NULL;
+ALTER TABLE BlogPost CHANGE content content LONGTEXT NOT NULL;
+ALTER TABLE Member CHANGE info info LONGTEXT NOT NULL
+;

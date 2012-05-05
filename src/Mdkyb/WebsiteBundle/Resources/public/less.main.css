@@ -124,6 +124,10 @@ p {
 #content h1 {
   font-size: 28px;
 }
+#content .h3 {
+  font-size: 18px;
+  color: #002d80;
+}
 #content h2 {
   margin-bottom: 10px;
   font-size: 20px;
@@ -214,6 +218,7 @@ p {
 }
 #content form textarea {
   height: 100px;
+  width: 80%;
 }
 #content img.avatar {
   float: right;
