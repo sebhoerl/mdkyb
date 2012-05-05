@@ -5,7 +5,7 @@
         </li>
 
         <li>
-            <a href="">VEREIN</a> &#x25BE;
+            <a href="{{ url('submenu') }}">VEREIN</a> &#x25BE;
             <ul>
                 <li>
                     <a href="{{ url('board') }}">VORSTAND</a>
@@ -13,11 +13,6 @@
                 <li>
                     <a href="{{ url('statute') }}">SATZUNG</a>
                 </li>
-                {% for page in menu %}
-                    <li>
-                        <a href="{{ url('static', {slug:page.name}) }}">{{ page.title }}</a>
-                    </li>
-                {% endfor %}
             </ul>
         </li>
 

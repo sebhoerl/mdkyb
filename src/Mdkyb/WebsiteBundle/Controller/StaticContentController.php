@@ -12,37 +12,13 @@ use Symfony\Component\HttpFoundation\Response;
 class StaticContentController extends AbstractController
 {
     /**
-     * Shows a static page
-     * 
-     * @Route("/static/{slug}", name="static")
-     * @Template()
-     */
-    public function showAction($slug)
-    {
-        $page = $this->getEntityManager()
-            ->getRepository('MdkybWebsiteBundle:StaticContent')
-            ->findOneBy(array('name' => $slug));
-
-        if ($page === null)
-        {
-            throw $this->createNotFoundException('Die Seite existiert nicht!');
-        }
-
-        return array('page' => $page);
-    }
-
-    /**
      * Shows the menu for the static pages
      * 
      * @Template()
      */
     public function showMenuAction()
     {
-        $menu = $this->getEntityManager()
-            ->getRepository('MdkybWebsiteBundle:StaticContent')
-            ->findAll();
-
-        return array('menu' => $menu);
+        return array();
     }
 
     /**
@@ -52,6 +28,17 @@ class StaticContentController extends AbstractController
      * @Template()
      */
     public function showInternalAreaAction()
+    {
+        return array();
+    }
+
+    /**
+     * Shows the links for the submenu
+     * 
+     * @Route("/verein", name="submenu")
+     * @Template()
+     */
+    public function showSubMenuAction()
     {
         return array();
     }

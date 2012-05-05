@@ -159,17 +159,3 @@ objects:
             expiresAt:
                 label: Verfällt
                 format: date
-    static:
-        label: Seiten
-        description: Statische Seiten bearbeiten
-        entity: Mdkyb\WebsiteBundle\Entity\StaticContent
-        identifier: id
-        fields:
-            name:
-                label: Name
-            title:
-                label: Titel
-            content:
-                label: Inhalt
-                list: false
-                type: textarea
