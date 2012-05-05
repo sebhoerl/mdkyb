@@ -20,6 +20,34 @@
             </div>
             <div id="content">
                 {% block content '' %}
+                <div id="footer">
+                    <div class="copyright">
+                        COPYRIGHT 2012 <a href="">VEREIN MAGDEBURGER KYBERNETIKER</a>
+                    </div>
+                    <ul>
+                        <li class="title">VEREIN</li>
+                        <li><a href="{{ url('index') }}">HOME</a></li>
+                        <li><a href="{{ url('gallery') }}">GALLERIE</a></li>
+                        <li><a href="{{ url('board') }}">VORSTAND</a></li>
+                        <li><a href="{{ url('statute') }}">SATZUNG</a></li>
+                        <li><a href="{{ url('application') }}">MITGLIEDSCHAFT</a></li>
+                    </ul>
+                    <ul>
+                        <li class="title">INTERN</li>
+                        <li><a href="{{ url('downloads') }}">DOWNLOADS</a></li>
+                        <li><a href="{{ url('members', {page:1}) }}">MITGLIEDER</a></li>
+                        <li><a href="{{ url('jobs') }}">JOBS</a></li>
+                        <li><a href="/forum">FORUM</a></li>
+                        <li><a href="/wiki">WIKI</a></li>
+                    </ul>
+                    <ul>
+                        <li class="title">MISC</li>
+                        <li><a href="">IMPRESSUM</a></li>
+                        <li><a href="">DATENSCHUTZ</a></li>
+                    </ul>
+
+                    <div style="clear:both"></div>
+                </div>
             </div>
         </div>
         <script src="{{ asset('bundles/mdkybwebsite/dropdown.js') }}"></script>

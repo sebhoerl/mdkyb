@@ -15,9 +15,9 @@
 
     {% for gallery in galleries %}
         <h2>{{ gallery.title }}</h2>
-        {% for image in gallery.images %}
-            <a rel="lightbox[{{ gallery.title }}]" href="{{ asset('uploads/' ~ image.filename) }}"><img src="{{ asset('uploads/' ~ image.thumbname) }}" title="{{ image.title }}" alt="" /></a>
-        {% endfor %}
+        <p>{% for image in gallery.images %}
+            <a rel="lightbox[{{ gallery.title }}]" href="{{ asset('uploads/' ~ image.filename) }}"><img src="{{ asset('uploads/' ~ image.thumbname) }}" title="{{ image.title }}" class="gallery" alt="" /></a>
+        {% endfor %}</p>
     {% endfor %}
 
 {% endblock %}

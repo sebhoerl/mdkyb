@@ -35,7 +35,7 @@
  */
 
 * {
-    font-family: 'Cantarell', sans-serif;
+    font-family:  'Cantarell', sans-serif;
 }
 
 a img {
@@ -83,7 +83,7 @@ h1, h2, h3, h4, h5, h6, p {
             a {
                 color: white;
                 text-decoration: none;
-                font-size: 13px;
+                font-size: 14px;
 
                 &:hover {
                     text-decoration: underline;
@@ -112,6 +112,10 @@ h1, h2, h3, h4, h5, h6, p {
                     border-left: rgb(73, 92, 128) 3px solid;
                     margin: 0px;
                     padding-left: 10px;
+
+                    a {
+                        font-size: 12px;
+                    }
                 }
             }
         }
@@ -119,7 +123,7 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 #content {
-    font-size: 16px;
+    font-size: 14px;
 
     em {
         font-style: normal;
@@ -236,5 +240,50 @@ h1, h2, h3, h4, h5, h6, p {
     img.avatar {
         float: right;
         border-radius: 5px;
+    }
+
+    img.gallery {
+        border-radius: 5px;
+    }
+
+    #footer {
+        clear: both;
+        border-top: 1px solid rgb(200, 200, 200);
+        font-size: 12px;
+        color: rgb(200, 200, 200);
+        padding-top: 10px;
+
+        .copyright {
+            float: right;
+            margin-right: 5px;
+        }
+
+        a {
+            color: rgb(160, 160, 200);
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        ul {
+            float: left;
+            list-style: none;
+            padding: 0px 0px 0px 0px;
+            margin: 0px 0px 0px 0px;
+            margin-left: 5px;
+            margin-right: 25px;
+
+            li {
+                padding: 0px 0px 0px 0px;
+                margin: 0px 0px 0px 0px;
+
+                &.title {
+                    color: rgb(0, 45, 128);
+                    padding-bottom: 3px;
+                }
+            }
+        }
     }
 }
