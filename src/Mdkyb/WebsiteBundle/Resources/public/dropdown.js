@@ -44,6 +44,9 @@ $(function(){
         html = html.replace(/http:\/\/([^ \n]+)/g, '<a href="http://$1">http://$1</a>');
         html = html.replace(/\[([^\n]+?)\][ \n]*<a href="(.*?)">(.*?)<\/a>/g, '<a href="$2">$1</a>');
 
+        html = html.replace('### VORSTAND', '<hr />');
+        html = html.replace(/\n*<hr \/>\n*/, '<hr />');
+
         html = html.replace(/([^\n])\n([^\n])/g, '$1 $2');
         html = html.replace(/\n{3,}/g, '<br /><br />');
         html = html.replace(/\n+/g, '<br />');
