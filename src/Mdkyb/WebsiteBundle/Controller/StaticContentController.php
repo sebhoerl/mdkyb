@@ -53,4 +53,26 @@ class StaticContentController extends AbstractController
     {
         return array();
     }
+
+    /**
+     * Shows legal notice
+     * 
+     * @Route("/rechtliches", name="legal")
+     * @Template()
+     */
+    public function showLegalNoticeAction()
+    {
+        return array();
+    }
+
+    /**
+     * Shows owner
+     * 
+     * @Route("/impressum", name="owner")
+     * @Template()
+     */
+    public function showOwnerAction()
+    {
+        return array();
+    }
 }

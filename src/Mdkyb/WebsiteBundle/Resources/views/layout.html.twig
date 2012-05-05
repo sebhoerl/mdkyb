@@ -22,7 +22,7 @@
                 {% block content '' %}
                 <div id="footer">
                     <div class="copyright">
-                        COPYRIGHT 2012 <a href="">VEREIN MAGDEBURGER KYBERNETIKER</a>
+                        COPYRIGHT 2012 <a href="{{ url('owner') }}">VEREIN MAGDEBURGER KYBERNETIKER</a>
                     </div>
                     <ul>
                         <li class="title">VEREIN</li>
@@ -42,8 +42,8 @@
                     </ul>
                     <ul>
                         <li class="title">MISC</li>
-                        <li><a href="">IMPRESSUM</a></li>
-                        <li><a href="">DATENSCHUTZ</a></li>
+                        <li><a href="{{ url('owner') }}">IMPRESSUM</a></li>
+                        <li><a href="{{ url('legal') }}">RECHTLICHES</a></li>
                     </ul>
 
                     <div style="clear:both"></div>
