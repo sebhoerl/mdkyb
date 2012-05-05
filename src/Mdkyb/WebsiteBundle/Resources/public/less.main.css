@@ -202,11 +202,15 @@ p {
 }
 #content form input[type=text],
 #content form input[type=password],
-#content form input[type=email] {
+#content form input[type=email],
+#content form textarea {
   width: 50%;
   border: 1px solid #c8c8c8;
   border-radius: 3px;
   padding: 2px;
+}
+#content form textarea {
+  height: 100px;
 }
 #content img.avatar {
   float: right;

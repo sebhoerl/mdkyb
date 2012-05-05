@@ -19,6 +19,9 @@ use Swift_Message;
 use Datetime;
 
 use Mdkyb\WebsiteBundle\Entity\Image;
+use Mdkyb\WebsiteBundle\Entity\MembershipApplication;
+
+use Mdkyb\WebsiteBundle\Form\MembershipApplicationType;
 
 /**
  * Handles member section requests
@@ -368,5 +371,34 @@ class MemberController extends AbstractController
         }
 
         return array('user' => $user);
+    }
+
+    /**
+     * Shows the membership application form
+     * 
+     * @Template()
+     * @Route("/mitgliedschaft", name="application")
+     */
+    public function showMembershipApplicationAction()
+    {
+        $em = $this->getEntityManager();
+        $request = $this->getRequest();
+
+        $application = new MembershipApplication();
+        $form = $this->createForm(new MembershipApplicationType, $application);
+
+        if ('POST' === $request->getMethod()) {
+            $form->bindRequest($request);
+
+            if ($form->isValid()) {
+                $em->persist($application);
+                $em->flush();
+
+                $request->getSession()->setFlash('member.application', true);
+                return $this->redirect($this->generateUrl('application'));
+            }
+        }
+
+        return array('form' => $form->createView());
     }
 }

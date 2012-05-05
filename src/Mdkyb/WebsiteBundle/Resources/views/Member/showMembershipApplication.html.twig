@@ -1,0 +1,17 @@
+{% extends 'MdkybWebsiteBundle::layout.html.twig' %}
+
+{% block title "Mitgliedschaft" %}
+
+{% block content %}
+
+    <h1>MITGLIED WERDEN</h1>
+
+    {% if app.request.session.hasFlash('member.application') %}
+        <p class="flash">Dein Antrag wurde gespeichert und so schnell wie möglich bearbeitet.</p>
+    {% endif %}
+
+    <form action="" method="post">
+        {{ form_widget(form) }}
+        <button type="submit">Antrag einsenden</button>
+    </form>
+{% endblock %}

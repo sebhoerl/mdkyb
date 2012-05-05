@@ -159,3 +159,57 @@ objects:
             expiresAt:
                 label: Verfällt
                 format: date
+    application:
+        label: Mitgliedsanträge
+        description: Liste aller Mitgliedsanträge
+        entity: Mdkyb\WebsiteBundle\Entity\MembershipApplication
+        identifier: id
+        secure: ROLE_ADMIN
+        fields:
+            supporting:
+                label: Mitgliedschaft
+                type: choice
+                format: boolean
+                options:
+                    choices:
+                        true: fördernd
+                        false: ordentlich
+            student:
+                label: Student
+                type: choice
+                format: boolean
+                options:
+                    choices:
+                        true: Ja
+                        false: Nein
+            male:
+                label: Anrede
+                type: choice
+                format: boolean
+                options:
+                    choices:
+                        true: Herr
+                        false: Frau
+            title:
+                label: Titel
+                options:
+                    required: false
+            surename:
+                label: Vorname
+            lastname:
+                label: Nachname
+            street:
+                label: Straße / Hausnummer
+            postalCode:
+                label: Postleitzahl
+            city:
+                label: Ort
+            email:
+                type: email
+                label: E-Mail
+            phone:
+                label: Telefon
+            comment:
+                label: Kommentar
+                options:
+                    required: false
