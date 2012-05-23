@@ -90,6 +90,7 @@ p {
   padding: 0px;
   z-index: 2;
   width: inherit;
+  margin-top: -5px;
   left: -10px;
   padding-left: 10px;
   padding-right: 10px;

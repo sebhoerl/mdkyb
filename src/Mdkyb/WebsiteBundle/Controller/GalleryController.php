@@ -23,7 +23,7 @@ class GalleryController extends AbstractController
     public function showAllAction()
     {
         $galleries = $this->getEntityManager()
-            ->createQuery('select g, i from MdkybWebsiteBundle:Gallery g join g.images i')
+            ->createQuery('select g, i from MdkybWebsiteBundle:Gallery g join g.images i order by g.id desc')
             ->getResult();
 
         return array('galleries' => $galleries);

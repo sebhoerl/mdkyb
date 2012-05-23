@@ -9,7 +9,7 @@
     <table>
         {% for user in users %}
             <tr><td>
-                {% if user.image is defined %}
+                {% if user.image is defined and user.image.id %}
                     <img class="avatar" src="{{ asset('uploads/' ~ user.image.thumbname) }}" alt="" />
                 {% endif %}
             </td><td><a href="{{ url('show_member', {id:user.id}) }}">{{ user.name }}</a></td></tr>
