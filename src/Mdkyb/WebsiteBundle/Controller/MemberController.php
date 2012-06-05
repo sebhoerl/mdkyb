@@ -339,6 +339,7 @@ class MemberController extends AbstractController
      * 
      * @Route("/mitglieder/{page}", name="members")
      * @Template()
+     * @Secure(roles="ROLE_MEMBER")
      */
     public function showMembersAction($page = 1)
     {
@@ -362,6 +363,7 @@ class MemberController extends AbstractController
      * 
      * @Route("/mitglied/{id}", name="show_member")
      * @Template()
+     * @Secure(roles="ROLE_MEMBER")
      */
     public function showProfileAction($id)
     {

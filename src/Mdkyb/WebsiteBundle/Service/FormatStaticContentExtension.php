@@ -31,7 +31,7 @@ class FormatStaticContentExtension extends Twig_Extension
         $parts = explode("### VORSTAND", $text);
 
         if ($board) {
-            $text = isset($parts[1]) ? $parts[1] : $parts[0];
+            $text = isset($parts[1]) ? $parts[1] : '';
         } else {
             $text = $parts[0];
         }
@@ -50,7 +50,7 @@ class FormatStaticContentExtension extends Twig_Extension
         $text = preg_replace('@http://([^ \n]+)@', '<a href="http://$1">http://$1</a>', $text);
         $text = preg_replace('@\[([^\n]+?)\][ \n]*<a (.*?)>(.*?)</a>@', '<a $2>$1</a>', $text);
 
-        $text = preg_replace('@([^\r\n])(\r?\n)([^\r\n])@', '$1 $2', $text);
+        $text = preg_replace('@([^\r\n])(\r?\n)([^\r\n])@', '$1 $3', $text);
         $text = preg_replace('@(\r?\n){3,}@', '<br /><br />', $text);
         $text = preg_replace('@(\r?\n)+@', '<br />', $text);
 
