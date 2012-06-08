@@ -145,7 +145,8 @@ p {
 #content p,
 #content table,
 #content div.p,
-#content form {
+#content form,
+#content ul.gallery {
   background-color: #f0f0f0;
   border: 1px solid #e6e6e6;
   border-radius: 5px 5px 5px 5px;
@@ -157,7 +158,8 @@ p {
 #content p.flash,
 #content table.flash,
 #content div.p.flash,
-#content form.flash {
+#content form.flash,
+#content ul.gallery.flash {
   background-color: #f0faf0;
   border: 1px solid #64c864;
   color: #326432;
@@ -165,10 +167,19 @@ p {
 #content p.badflash,
 #content table.badflash,
 #content div.p.badflash,
-#content form.badflash {
+#content form.badflash,
+#content ul.gallery.badflash {
   background-color: #faf0f0;
   border: 1px solid #c86464;
   color: #0a3232;
+}
+#content ul.gallery {
+  list-style: none;
+}
+#content ul.gallery li {
+  display: inline-block;
+  text-align: center;
+  font-size: 10px;
 }
 #content div.p p {
   border-width: 0px;
