@@ -19,7 +19,7 @@ class DownloadController extends AbstractController
      * 
      * @Route("/downloads", name="downloads")
      * @Template()
-     * @Secure(roles="ROLE_MEMBER")
+     * //Secure(roles="ROLE_MEMBER")
      */
     public function listAction()
     {
@@ -34,7 +34,7 @@ class DownloadController extends AbstractController
      * Shows a certain download
      * 
      * @Route("/download/{id}", name="download")
-     * @Secure(roles="ROLE_MEMBER")
+     * //Secure(roles="ROLE_MEMBER")
      */
     public function showAction($id)
     {
