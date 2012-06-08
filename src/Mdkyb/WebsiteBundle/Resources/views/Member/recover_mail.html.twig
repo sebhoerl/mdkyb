@@ -1,8 +1,8 @@
 Hallo {{ user.name }},
 
-du erhälst diese E-Mail, weil du ein neues Passwort auf der Seite des Vereins Magdeburger Kybernetiker einstellen möchtest. Sollte das nicht der Fall sein, kannst du diese E-Mail einfach ignorieren.
+Sie erhalten diese E-Mail, weil Sie ein neues Passwort auf der Seite des Vereins Magdeburger Kybernetiker einstellen möchten. Sollte das nicht der Fall sein, können Sie diese E-Mail einfach ignorieren.
 
-Dein Passwort kannst du innerhalb der nächsten 12 Stunden unter folgendem Link ändern:
+Ihr Passwort können Sie innerhalb der nächsten 12 Stunden unter folgendem Link ändern:
 {{ url('recover_password', {id :user.id, hash: hash}) }}
 
 Viele Grüße
