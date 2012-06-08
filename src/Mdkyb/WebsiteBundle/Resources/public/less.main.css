@@ -12,6 +12,12 @@
   left: 0px;
   width: 125px;
 }
+#social {
+  position: absolute;
+  top: 180px;
+  left: 0px;
+  width: 125px;
+}
 #nav {
   position: absolute;
   top: 0px;
@@ -51,6 +57,9 @@ p {
 #left a {
   color: #002d80;
   text-decoration: none;
+}
+#social {
+  text-align: center;
 }
 #nav {
   background-color: #002d80;

@@ -5,7 +5,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.5.3/modernizr.min.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-        <link href="{{ asset('bundles/mdkybwebsite/less.main.css') }}?20120605" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('bundles/mdkybwebsite/less.main.css') }}?20120608" rel="stylesheet" type="text/css" />
         <link href='http://fonts.googleapis.com/css?family=Cantarell:400,700' rel='stylesheet' type='text/css'>
         {% block head '' %}
     </head>
@@ -14,6 +14,12 @@
             <div id="left">
                 <a href="{{ url('index') }}"><img src="{{ asset('bundles/mdkybwebsite/logo.png') }}" alt="Logo" /></a>
                 <a href="{{ url('index') }}">VEREIN MAGDEBURGER KYBERNETIKER</a>
+            </div>
+            <div id="social">
+                <a href="https://twitter.com/mdkyb" class="twitter-follow-button" data-show-count="false" data-lang="de" data-dnt="true">@mdkyb folgen</a>
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+<iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fmagdeburgerkybernetiker.de&amp;send=false&amp;layout=button_count&amp;width=125&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21&amp;appId=203208013135317" scrolling="no" frameborder="0" style="margin-left:7px; border:none; overflow:hidden; width:125px; height:21px;" allowTransparency="true"></iframe>
             </div>
             <div id="nav">
                 {% render "MdkybWebsiteBundle:StaticContent:showMenu" %}
