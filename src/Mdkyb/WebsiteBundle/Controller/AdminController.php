@@ -14,6 +14,7 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 use Mdkyb\WebsiteBundle\Entity\Email;
+use Mdkyb\WebsiteBundle\Entity\Member;
 
 /*
  * ACHTUNG!!!
@@ -136,6 +137,32 @@ class AdminController extends AbstractController
         return $this->redirect($this->generateUrl(
             'admin_edit', array('name' => $objectName, 'id' => $object->getId())
         ));
+    }
+
+    public function acceptMemberAction($object, $objectName, $objectInfo)
+    {
+        $em = $this->getEntityManager();
+
+        $member = new Member();
+        $member->setEmail($object->getEmail());
+        $member->setName(
+            sprintf('%s %s %s',
+                $object->getTitle(),
+                $object->getSurename(),
+                $object->getLastname()
+            )
+        );
+        $member->setFunction(0);
+        $member->setPassword('');
+        $member->setPaid(false);
+        $member->setRoles(array('ROLE_MEMBER'));
+
+        $em->persist($member);
+        $em->remove($object);
+
+        $em->flush();
+
+        return $this->registerAction($member, 'member', array());
     }
 
     /**

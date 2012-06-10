@@ -20,5 +20,8 @@ Telefon: {{ application.phone }}
 Kommentar:
 {{ application.comment }}
 
+Der Antrag kann auf folgender Seite bestätigt oder gelöscht werden:
+{{ url('admin_edit', {'name':'application', 'id':application.id}) }}
+
 Viele Grüße
 Der Verein Magdeburger Kybernetiker

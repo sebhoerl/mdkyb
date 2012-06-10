@@ -7,7 +7,7 @@
     <h1>{{ user.name }}</h1>
 
     <div class="p">
-        {% if user.image is defined %}
+        {% if user.image is defined and user.image and user.image.id %}
             <img class="avatar" src="{{ asset('uploads/' ~ user.image.thumbname) }}" alt="" />
         {% endif %}
         {{ user.info|format_content|raw }}

@@ -20,7 +20,7 @@
             {% endif %}
         {% endspaceless %})</h2>
         <div class="p">
-            {% if user.image is defined and user.image.id %}
+            {% if user.image is defined and user.image and user.image.id %}
                 <img class="avatar" src="{{ asset('uploads/' ~ user.image.thumbname) }}" alt="" />
             {% endif %}
             {{ user.info|format_content(true)|raw }}

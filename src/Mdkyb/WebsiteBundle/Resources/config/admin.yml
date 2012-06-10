@@ -120,10 +120,10 @@ objects:
                 options:
                     required: false
             function:
-                label: Funktion
+                label: Aufgabe
                 type: choice
                 options:
-                    empty_value: Keine Funktion
+                    empty_value: Keine Aufgabe
                     choices:
                         1: Vorsitzender
                         2: Stellvertretender Vorsitzender
@@ -213,3 +213,7 @@ objects:
                 label: Kommentar
                 options:
                     required: false
+        actions:
+            add_as_user:
+                label: Benutzeraccount erstellen und Antrag löschen
+                controller: acceptMemberAction
