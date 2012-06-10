@@ -138,6 +138,11 @@ h1, h2, h3, h4, h5, h6, p {
 #content {
     font-size: 14px;
 
+    img {
+        margin: 0px 0px 0px 0px;
+        padding: 0px 0px 0px 0px;
+    }
+
     em {
         font-style: normal;
         font-weight: bold;
@@ -183,14 +188,20 @@ h1, h2, h3, h4, h5, h6, p {
         }
     }
 
-    ul.gallery {
-        list-style: none;
+    div.gallery {
+        width: 150px;
+        text-align: center;
+        float: left;
+        font-size: 10px;
 
-        li {
-            display: inline-block;
-            text-align: center;
-            font-size: 10px;
+        img {
+            border-radius: 7px;
         }
+    }
+
+    div.gallery-stop {
+        clear: left;
+        padding-top: 10px;
     }
 
     div.p p {
