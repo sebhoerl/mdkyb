@@ -396,6 +396,20 @@ class MemberController extends AbstractController
                 $em->persist($application);
                 $em->flush();
 
+                $user = $em->getRepository('MdkybWebsiteBundle:Member')->findOneByFunction(3);
+                if ($user) {
+                    $message = Swift_Message::newInstance()
+                        ->setSubject('Neuer Mitgliedsantrag')
+                        ->setFrom('no-reply@magdeburgerkybernetiker.de')
+                        ->setTo($user->getEmail())
+                        ->setBody($this->renderView('MdkybWebsiteBundle:Member:application_mail.html.twig', 
+                            array('user' => $user, 'application' => $application)
+                        ))
+                    ;
+
+                    $this->get('mailer')->send($message);
+                }
+
                 $request->getSession()->setFlash('member.application', true);
                 return $this->redirect($this->generateUrl('application'));
             }

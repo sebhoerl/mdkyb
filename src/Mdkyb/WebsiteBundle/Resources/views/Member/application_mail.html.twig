@@ -1,0 +1,24 @@
+Hallo {{ user.name }},
+
+ein neuer Mitgliedsantrag wurde für den Verein Magdeburger Kybernetiker eingereicht:
+
+Mitgliedschaft:{% if application.supporting %}fördernd{% else %}ordentlich{% endif %}
+
+Student: {% if application.student %}ja{% else %}nein{% endif %}
+
+Anrede: {% if application.male %}Herr{% else %}Frau{% endif %}
+
+Titel: {{ application.title }} 
+Vorname: {{ application.surename }} 
+Nachname: {{ application.lastname }}
+Straße, Nr: {{ application.street }}
+Postleitzahl: {{ application.postalCode }}
+Ort: {{ application.city }}
+E-Mail: {{ application.email }}
+Telefon: {{ application.phone }}
+
+Kommentar:
+{{ application.comment }}
+
+Viele Grüße
+Der Verein Magdeburger Kybernetiker
