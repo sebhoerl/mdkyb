@@ -7,6 +7,7 @@
 /vendor/
 /app/config/parameters.ini
 /deploy
+/changeset
 /uploads/*
 /web/uploads/*
 /web/forum/*
