@@ -1,16 +1,22 @@
 {% extends 'MdkybWebsiteBundle:Admin:layout.html.twig' %}
 
 {% block content %}
+    <ul class="breadcrumb">
+        <li><a href="{{ path('admin_index') }}">Administration</a> <span class="divider">/</span></li>
+        <li><a href="{{ url('admin_list', {name:object_name}) }}">{{ config.label }}</a> <span class="divider">/</span></li>
+        <li class="active">Löschen</li>
+    </ul>
 
-    <a href="{{ url('index') }}">Startseite</a> |
-    <a href="{{ url('admin_index') }}">Administration</a> &gt;
-    <a href="{{ url('admin_list', {name:object_name}) }}">{{ object_name }}</a>
-    <hr />
+    <div class="page-header">
+        <h1>{{ config.label }} löschen</h1>
+    </div>
 
     <form action="" method="post">
-        Objekt wirklich löschen?
+        {{ config.label }} wirklich löschen?
 
-        <input type="submit" />
+        <div class="form-actions">
+            <input class="btn btn-danger" type="submit" value="Löschen!" />
+        </div>
     </form>
 
 {% endblock %}

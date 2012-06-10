@@ -2,101 +2,122 @@
 
 {% block content %}
 
-    <a href="{{ url('index') }}">Startseite</a> |
-    <a href="{{ url('admin_index') }}">Administration</a>
-    <hr />
+    <ul class="breadcrumb">
+        <li><a href="{{ path('admin_index') }}">Administration</a> <span class="divider">/</span></li>
+        <li class="active">{{ config.label }}</li>
+    </ul>
+
+    <div class="page-header">
+        <h1>{{ config.label }}</h1>
+    </div>
 
     {% if app.request.session.hasFlash('admin.deleted') %}
-        Object wurde gelöscht.
+        <div class="alert alert-success">
+            {{ config.label }} wurde gelöscht.
+        </div>
     {% endif %}
 
-<a href="{{ url('admin_create', {name:object_name}) }}">Neu</a>
+    <div class="well">
 
-<form method="post" action="">
+        <a class="btn btn-primary" href="{{ url('admin_create', {name:object_name}) }}">{{ config.label }} erstellen</a>
 
-    Order by:
-    <select name="order_by">
-        {% for name, field in fields if field.orderable and field.list %}
-            <option value="{{ name }}"
-            {% if order_by == name %}selected{% endif %}
-            >{{ field.label }}</option>
-        {% endfor %}
-    </select>
+        <form style="margin-top: 15px;" class="form-inline" method="post" action="">
+            <select name="order_by">
+                {% for name, field in fields if field.orderable and field.list %}
+                    <option value="{{ name }}"
+                    {% if order_by == name %}selected{% endif %}
+                    >{{ field.label }}</option>
+                {% endfor %}
+            </select>
 
-    <select name="order_dir">
-        <option value="asc" {% if order_dir == 'asc' %}selected{% endif %}>Aufsteigend</option>
-        <option value="desc" {% if order_dir == 'desc' %}selected{% endif %}>Absteigend</option>
-    </select>
+            <select name="order_dir">
+                <option value="asc" {% if order_dir == 'asc' %}selected{% endif %}>Aufsteigend</option>
+                <option value="desc" {% if order_dir == 'desc' %}selected{% endif %}>Absteigend</option>
+            </select>
 
-    <input type="submit" />
+            <input type="submit" value="Sortieren" />
 
-</form>
+        </form>
 
-<hr />
+        <form method="post" action="" class="form-inline">
+            <select name="filter_field">
+                <option value=""></option>
+                {% for name, field in fields if field.filterable and field.list %}
+                    <option value="{{ name }}"
+                    {% if filter_field == name %}selected{% endif %}
+                    >{{ field.label }}</option>
+                {% endfor %}
+            </select>
 
-<form method="post" action="">
-    Filter:
-    <select name="filter_field">
-        <option value=""></option>
-        {% for name, field in fields if field.filterable and field.list %}
-            <option value="{{ name }}"
-            {% if filter_field == name %}selected{% endif %}
-            >{{ field.label }}</option>
-        {% endfor %}
-    </select>
+            <input name="filter_value" type="text" value="{{ filter_value }}" />
+            <input type="submit" value="Filtern" />
+        </form>
 
-    <input name="filter_value" type="text" value="{{ filter_value }}" />
-    <input type="submit" />
-</form>
+    </div>
 
-<hr />
-
-<table>
-    <tr>
-        {% for name, field in fields %}
-            {% if field.list %}
-                <th>{{ field.label }}</th>
+    <div class="pagination">
+        {% for page in pages %}
+            {% if page.type == 'current' %}
+                <li class="active"><a href="#">{{ page.number }}</a></li>
+            {% elseif page.type == 'link' %}
+                <li><a href="{{ url('admin_list_page', {name:object_name, page:page.number}) }}">{{ page.number }}</a></li>
+            {% elseif page.type == 'separator' %}
+                <li>...</li>
             {% endif %}
         {% endfor %}
-    </tr>
-    {% for object in objects %}
-        <tr>
-            {% for name, field in fields %}
-                {% if field.list %}
-                    <td>
-                        <a href="{{ url('admin_edit', {name: object_name, id: attribute(object, identifier)}) }}">
-                        {% if field.format == 'text' %}
-                            {{ attribute(object, name) }}
-                        {% elseif field.format == 'date' %}
-                            {{ attribute(object, name)|date }}
-                        {% elseif field.format == 'boolean' %}
-                            {% if attribute(object, name) %}
-                                true
-                            {% else %}
-                                false
-                            {% endif %}
-                        {% elseif field.format == 'list' %}
-                            {% for item in attribute(object, name) %}
-                                {{ item }}
-                            {% endfor %}
-                        {% endif %}
-                        </a>
-                    </td>
-                {% endif %}
-            {% endfor %}
-        </tr>
-    {% endfor %}
-</table>
+    </div>
 
-Seite 
-{% for page in pages %}
-    {% if page.type == 'current' %}
-        {{ page.number }}
-    {% elseif page.type == 'link' %}
-        <a href="{{ url('admin_list_page', {name:object_name, page:page.number}) }}">{{ page.number }}</a>
-    {% elseif page.type == 'separator' %}
-        ...
-    {% endif %}
-{% endfor %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                {% for name, field in fields %}
+                    {% if field.list %}
+                        <th>{{ field.label }}</th>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for object in objects %}
+            <tr>
+                {% for name, field in fields %}
+                    {% if field.list %}
+                        <td>
+                            <a href="{{ url('admin_edit', {name: object_name, id: attribute(object, identifier)}) }}">
+                            {% if field.format == 'text' %}
+                                {{ attribute(object, name) }}
+                            {% elseif field.format == 'date' %}
+                                {{ attribute(object, name)|date }}
+                            {% elseif field.format == 'boolean' %}
+                                {% if attribute(object, name) %}
+                                    true
+                                {% else %}
+                                    false
+                                {% endif %}
+                            {% elseif field.format == 'list' %}
+                                {% for item in attribute(object, name) %}
+                                    {{ item }}
+                                {% endfor %}
+                            {% endif %}
+                            </a>
+                        </td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        {% for page in pages %}
+            {% if page.type == 'current' %}
+                <li class="active"><a href="#">{{ page.number }}</a></li>
+            {% elseif page.type == 'link' %}
+                <li><a href="{{ url('admin_list_page', {name:object_name, page:page.number}) }}">{{ page.number }}</a></li>
+            {% elseif page.type == 'separator' %}
+                <li>...</li>
+            {% endif %}
+        {% endfor %}
+    </div>
 
 {% endblock %}

@@ -26,7 +26,7 @@ objects:
                     required: false
     gallery:
         label: Gallerien
-        description: Verwaltung der Gallerien
+        description: Gallerien verwalten
         entity: Mdkyb\WebsiteBundle\Entity\Gallery
         identifier: id
         fields:
@@ -34,7 +34,7 @@ objects:
                 label: Titel
     blog:
         label: Blog
-        description: Blog Einträge verwalten
+        description: Blogeinträge verwalten
         entity: Mdkyb\WebsiteBundle\Entity\BlogPost
         identifier: id
         ordering:
@@ -79,7 +79,7 @@ objects:
                         misc: Sonstiges
     member:
         label: Mitglieder
-        description: Verwaltung der Mitglieder
+        description: Mitglieder verwalten
         entity: Mdkyb\WebsiteBundle\Entity\Member
         identifier: id
         secure: ROLE_ADMIN
@@ -141,7 +141,7 @@ objects:
                 controller: registerAction
     job:
         label: Jobs
-        description: Verwaltung der Jobangebote
+        description: Job verwalten
         entity: Mdkyb\WebsiteBundle\Entity\Job
         identifier: id
         fields:
@@ -161,7 +161,7 @@ objects:
                 format: date
     application:
         label: Mitgliedsanträge
-        description: Liste aller Mitgliedsanträge
+        description: Mitgliedsanträge verwalten
         entity: Mdkyb\WebsiteBundle\Entity\MembershipApplication
         identifier: id
         secure: ROLE_ADMIN

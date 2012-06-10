@@ -1,16 +1,23 @@
 {% extends 'MdkybWebsiteBundle:Admin:layout.html.twig' %}
 
+{% form_theme form 'MdkybWebsiteBundle:Admin:fields_no_preview.html.twig' %}
+
 {% block content %}
+    <ul class="breadcrumb">
+        <li><a href="{{ path('admin_index') }}">Administration</a> <span class="divider">/</span></li>
+        <li class="active">E-Mails versenden</li>
+    </ul>
 
-    <a href="{{ url('index') }}">Startseite</a> |
-    <a href="{{ url('admin_index') }}">Administration</a> &gt;
-    <a href="{{ url('admin_email') }}">E-Mails versenden</a>
-    <hr />
+    <div class="page-header">
+        <h1>E-Mails verschicken</h1>
+    </div>
 
-    <form action="" method="post" {{ form_enctype(form) }}>
+    <form class="form-horizontal" action="" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
 
-        <input type="submit" />
+        <div class="form-actions">
+            <input class="btn btn-primary" type="submit" value="E-Mail an alle Mitglieder versenden" />
+        </div>
     </form>
 
 {% endblock %}

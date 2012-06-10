@@ -1,0 +1,7 @@
+{% extends 'MdkybWebsiteBundle:Admin:fields.html.twig' %}
+
+{% block textarea_widget %}
+{% spaceless %}
+    <textarea {{ block('widget_attributes') }} style="width:100%;">{{ value }}</textarea>
+{% endspaceless %}
+{% endblock textarea_widget %}

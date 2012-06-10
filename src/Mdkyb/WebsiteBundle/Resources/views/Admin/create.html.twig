@@ -1,16 +1,24 @@
 {% extends 'MdkybWebsiteBundle:Admin:layout.html.twig' %}
 
+{% form_theme form 'MdkybWebsiteBundle:Admin:fields.html.twig' %}
+
 {% block content %}
+    <ul class="breadcrumb">
+        <li><a href="{{ path('admin_index') }}">Administration</a> <span class="divider">/</span></li>
+        <li><a href="{{ url('admin_list', {name:object_name}) }}">{{ config.label }}</a> <span class="divider">/</span></li>
+        <li class="active">Erstellen</li>
+    </ul>
 
-    <a href="{{ url('index') }}">Startseite</a> |
-    <a href="{{ url('admin_index') }}">Administration</a> &gt;
-    <a href="{{ url('admin_list', {name:object_name}) }}">{{ object_name }}</a>
-    <hr />
+    <div class="page-header">
+        <h1>{{ config.label }} erstellen</h1>
+    </div>
 
-    <form action="" method="post" {{ form_enctype(form) }}>
+    <form class="form-horizontal" action="" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
 
-        <input type="submit" />
+        <div class="form-actions">
+            <input class="btn btn-primary" type="submit" value="Erstellen" />
+        </div>
     </form>
 
 {% endblock %}

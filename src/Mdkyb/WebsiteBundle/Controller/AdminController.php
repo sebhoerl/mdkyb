@@ -47,6 +47,18 @@ class AdminController extends AbstractController
      */
     public function emailAction()
     {
+        $count = $this->getEntityManager()
+            ->createQuery('select count(e) from MdkybWebsiteBundle:Email e')
+            ->getSingleScalarResult();
+
+        if ($count > 0) {
+            $this->getRequest()->getSession()->set('email_queue', $count);
+
+            return $this->redirect($this->generateUrl(
+                'admin_email_spool'
+            ));
+        }
+
         $email = new Email();
         $form = $this->createFormBuilder($email)
             ->add('title')
@@ -70,7 +82,7 @@ class AdminController extends AbstractController
                 $em->flush();
 
                 return $this->redirect($this->generateUrl(
-                    'admin_email_spool'
+                    'admin_email'
                 ));
             }
         }
@@ -96,21 +108,25 @@ class AdminController extends AbstractController
                 ->setMaxResults(1)
                 ->getSingleResult();
 
-            $message = Swift_Message::newInstance()
-                ->setSubject($email->getTitle())
-                ->setFrom('no-reply@magdeburgerkybernetiker.de')
-                ->setTo(array($email->getMember()->getEmail() => $email->getMember()->getName()))
-                ->setBody($email->getContent())
-            ;
+            try {
+                $message = Swift_Message::newInstance()
+                    ->setSubject($email->getTitle())
+                    ->setFrom('no-reply@magdeburgerkybernetiker.de')
+                    ->setTo(array($email->getMember()->getEmail() => $email->getMember()->getName()))
+                    ->setBody($email->getContent())
+                ;
 
-            $this->get('mailer')->send($message);
+                $this->get('mailer')->send($message);
+            } catch (\Exception $e) {}
 
             $em = $this->getEntityManager();
             $em->remove($email);
             $em->flush();
         }
 
-        return array('count' => $count, 'email' => $email);
+        $queue = $this->getRequest()->getSession()->get('email_queue');
+
+        return array('count' => $count, 'email' => $email, 'queue' => $queue);
     }
 
     public function registerAction($object, $objectName, $objectInfo)
@@ -360,7 +376,8 @@ class AdminController extends AbstractController
             'order_dir' => $order_dir,
             'filter_field' => $filter['field'],
             'filter_value' => $filter['value'],
-            'pages' => $display_pages
+            'pages' => $display_pages,
+            'config' => $objectConfig
         ));
     }
 
@@ -437,6 +454,7 @@ class AdminController extends AbstractController
             'object' => $objectConfig,
             'object_id' => $id,
             'object_name' => $name,
+            'config' => $objectConfig,
         ));
     }
 
@@ -462,14 +480,17 @@ class AdminController extends AbstractController
             $em->remove($object);
             $em->flush();
 
+            $request->getSession()->setFlash('admin.deleted', true);
+
             return $this->redirect($this->generateUrl('admin_list', array(
                 'name' => $name,
             )));
         }
 
         return $this->render($template, array(
-            'object' => $objectConfig,
+            'object' => $object,
             'object_name' => $name,
+            'config' => $objectConfig,
         ));
     }
 
@@ -537,6 +558,7 @@ class AdminController extends AbstractController
         return $this->render($template, array(
             'form' => $form->createView(),
             'object_name' => $name,
+            'config' => $objectConfig,
         ));
     }
 

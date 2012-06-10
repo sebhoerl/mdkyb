@@ -1,33 +1,43 @@
 {% extends 'MdkybWebsiteBundle:Admin:layout.html.twig' %}
 
-{% block content %}
+{% form_theme form 'MdkybWebsiteBundle:Admin:fields.html.twig' %}
 
-    <a href="{{ url('index') }}">Startseite</a> |
-    <a href="{{ url('admin_index') }}">Administration</a> &gt;
-    <a href="{{ url('admin_list', {name:object_name}) }}">{{ object_name }}</a>
-    <hr />
+{% block content %}
+    <ul class="breadcrumb">
+        <li><a href="{{ path('admin_index') }}">Administration</a> <span class="divider">/</span></li>
+        <li><a href="{{ url('admin_list', {name:object_name}) }}">{{ config.label }}</a> <span class="divider">/</span></li>
+        <li class="active">Editieren</li>
+    </ul>
 
     {% if app.request.session.hasFlash('admin.edited') %}
-        Object wurde editiert.
+        <div class="alert alert-success">
+            {{ config.label }} wurde editiert.
+        </div>
     {% endif %}
 
     {% if app.request.session.hasFlash('admin.created') %}
-        Object wurde erstellt.
+        <div class="alert alert-success">
+            {{ config.label }} wurde erstellt.
+        </div>
     {% endif %}
 
     {% if app.request.session.hasFlash('admin.registration') %}
-        Registrierungs-Mail wurde verwendet!
+        <div class="alert alert-success">
+            Registrierungsmail wurde versendet!
+        </div>
     {% endif %}
 
-    <form action="" method="post" {{ form_enctype(form) }}>
+    <form class="form-horizontal" action="" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
 
-        <input type="submit" />
-    </form>
+        <div class="form-actions">
+            <input class="btn btn-primary" type="submit" value="Speichern" />
 
-    <hr />
-    <a href="{{ url('admin_delete', {name:object_name, id: object_id}) }}">Löschen</a>
-    {% for aname, action in object.actions %}
-        <a href="{{ url('admin_action', {action:aname, id: object_id, name:object_name}) }}">{{ action.label }}</a>
-    {% endfor %}
+            {% for aname, action in object.actions %}
+                <a class="btn" href="{{ url('admin_action', {action:aname, id: object_id, name:object_name}) }}">{{ action.label }}</a>
+            {% endfor %}
+
+            <a class="btn btn-danger" href="{{ url('admin_delete', {name:object_name, id: object_id}) }}">Löschen</a>
+        </div>
+    </form>
 {% endblock %}

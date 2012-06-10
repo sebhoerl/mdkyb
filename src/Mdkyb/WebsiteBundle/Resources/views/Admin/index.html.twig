@@ -2,12 +2,13 @@
 
 {% block content %}
 
-<a href="{{ url('index') }}">Startseite</a>
-<hr />
+<ul class="breadcrumb">
+    <li class="active">Administration</li>
+</ul>
 
-<ul>
+<ul class="nav nav-tabs nav-stacked">
     {% for name, config in objects %}
-        <li><a href="{{ url('admin_list', {name:name}) }}">{{ config.label }}</a> {{ config.description }}</li>
+        <li><a href="{{ url('admin_list', {name:name}) }}">{{ config.description }}</a></li>
     {% endfor %}
     <li><a href="{{ url('admin_email') }}">E-Mails versenden</a> </li>
 </ul>

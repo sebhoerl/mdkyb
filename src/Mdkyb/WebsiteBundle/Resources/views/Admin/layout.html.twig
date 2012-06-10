@@ -3,9 +3,38 @@
     <head>
         <title>Admin</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="{{ asset('bundles/mdkybwebsite/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('bundles/mdkybwebsite/css/bootstrap-responsive.min.css') }}" rel="stylesheet" type="text/css" />
+        <script src="{{ asset('bundles/mdkybwebsite/js/bootstrap.min.js') }}"></script>
+        <style>
+        body {
+            padding-top: 60px;
+        }
+        </style>
     </head>
     <body>
-        <h1>Administration</h1>
-        {% block content '' %}
+        <div class="navbar navbar-fixed-top">
+          <div class="navbar-inner">
+            <div class="container">
+              <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </a>
+              <a class="brand" href="#">Verein Magdeburger Kybernetiker</a>
+              <div class="nav-collapse">
+                <ul class="nav">
+                  <li class="active"><a href="{{ url('admin_index') }}">Administration</a></li>
+                  <li><a href="{{ url('index') }}">Webseite</a></li>
+                </ul>
+              </div><!--/.nav-collapse -->
+            </div>
+          </div>
+        </div>
+        <div class="container">
+            {% block content '' %}
+        </div>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script src="{{ asset('bundles/mdkybwebsite/dropdown.js') }}"></script>
     </body>
 </html>
