@@ -37,3 +37,5 @@ ALTER TABLE Gallery ADD description LONGTEXT NOT NULL
 ;
 ALTER TABLE Gallery CHANGE description description LONGTEXT DEFAULT NULL
 ;
+ALTER TABLE Image CHANGE title title VARCHAR(255) DEFAULT NULL
+;
