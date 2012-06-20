@@ -9,6 +9,7 @@ class ChangeProfileType extends AbstractType
 {
     public function buildForm(FormBuilder $builder, array $options)
     {
+        $builder->add('name', 'text', array('required' => true, 'label' => 'Name'));
         $builder->add('info', 'textarea', array('required' => false, 'label' => 'Profil'));
         $builder->add('image.file', 'file', array('required' => false, 'label' => 'Profilbild'));
     }
