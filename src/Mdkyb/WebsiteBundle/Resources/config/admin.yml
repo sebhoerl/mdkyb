@@ -32,6 +32,9 @@ objects:
         fields:
             title:
                 label: Titel
+            description:
+                label: Beschreibung
+                list: false
     blog:
         label: Blog
         description: Blogeinträge verwalten

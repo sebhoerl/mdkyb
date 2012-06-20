@@ -186,6 +186,12 @@ p {
 #content div.gallery img {
   border-radius: 7px;
 }
+#content div.gallery.last {
+  font-size: 14px;
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px;
+}
 #content div.gallery-stop {
   clear: left;
   padding-top: 10px;

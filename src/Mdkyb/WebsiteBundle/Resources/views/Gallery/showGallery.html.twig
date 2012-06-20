@@ -1,0 +1,30 @@
+{% extends 'MdkybWebsiteBundle::layout.html.twig' %}
+
+{% block title 'Gallerie' %}
+
+{% block head %}
+    <script src="{{ asset('bundles/mdkybwebsite/js/lightbox.js') }}"></script>
+    <link href="{{ asset('bundles/mdkybwebsite/css/lightbox.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+
+    <h1>GALERIE</h1>
+    <h2>{{ gallery.title }}</h2>
+
+    <p>{{ gallery.description|format_content|raw }}</p>
+
+    <div class="p">
+        {% for image in gallery.images %}
+        <div class="gallery">
+            <a rel="lightbox[{{ gallery.title }}]" href="{{ asset('uploads/' ~ image.filename) }}"><img src="{{ asset('uploads/' ~ image.thumbname) }}" title="{{ image.title }}" alt="" /></a>
+            <span><br />{{ image.title }}</span>
+        </div>
+        {% if loop.index % 5 == 0%}
+            <div class="gallery-stop"></div>
+        {% endif %}
+        {% endfor %}
+        <div class="gallery-stop"></div>
+    </div>
+
+{% endblock %}

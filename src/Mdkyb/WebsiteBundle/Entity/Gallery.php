@@ -29,6 +29,11 @@ class Gallery
      */
     private $images;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -52,6 +57,16 @@ class Gallery
     public function getImages()
     {
         return $this->images;
+    }
+
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
     }
 
     public function __toString()

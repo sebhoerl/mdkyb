@@ -15,7 +15,7 @@ use Datetime;
 class GalleryController extends AbstractController
 {
     /**
-     * Shows all images
+     * Previews all galleries
      * 
      * @Route("/gallery", name="gallery")
      * @Template()
@@ -27,5 +27,21 @@ class GalleryController extends AbstractController
             ->getResult();
 
         return array('galleries' => $galleries);
+    }
+
+    /**
+     * Shows a gallery
+     * 
+     * @Route("/gallery/{id}", name="show_gallery")
+     * @Template()
+     */
+    public function showGalleryAction($id)
+    {
+        $gallery = $this->getEntityManager()
+            ->createQuery('select g, i from MdkybWebsiteBundle:Gallery g join g.images i where g.id = :id order by g.id desc')
+            ->setParameter('id', $id)
+            ->getSingleResult();
+
+        return array('gallery' => $gallery);
     }
 }
