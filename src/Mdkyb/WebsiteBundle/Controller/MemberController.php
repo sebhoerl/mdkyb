@@ -22,6 +22,8 @@ use Mdkyb\WebsiteBundle\Entity\Image;
 use Mdkyb\WebsiteBundle\Entity\MembershipApplication;
 
 use Mdkyb\WebsiteBundle\Form\MembershipApplicationType;
+use Doctrine\ORM\Query\Expr\Orx;
+use Doctrine\ORM\Query\Expr\Comparison;
 
 /**
  * Handles member section requests
@@ -332,30 +334,70 @@ class MemberController extends AbstractController
         return array('users' => $users);
     }
 
-    const MEMBERS_PER_PAGE = 20;
+    const MEMBERS_PER_PAGE = 10;
 
     /**
      * Shows all members
      * 
+     * @Route("/mitglieder", name="memberslist")
      * @Route("/mitglieder/{page}", name="members")
      * @Template()
      * @Secure(roles="ROLE_MEMBER")
      */
-    public function showMembersAction($page = 1)
+    public function showMembersAction($page = 0)
     {
-        $posts = $this->getEntityManager()
-            ->createQuery('select u from MdkybWebsiteBundle:Member u order by u.name asc')
+        $request = $this->getRequest();
+        $q = null;
+
+        if ($page == 0) {
+            $q = null;
+        } else if ($request->request->has('q')) {
+            $q = $request->request->get('q');
+            if (strlen(trim($q)) > 0) {
+                $request->getSession()->setFlash('memberq', trim($q));
+            }
+        } else if ($request->getSession()->hasFlash('memberq')) {
+            $q = $request->getSession()->getFlash('memberq');
+            $request->getSession()->setFlash('memberq', $q);
+        }
+
+        $query = $this->getEntityManager()
+            ->getRepository('MdkybWebsiteBundle:Member')
+            ->createQueryBuilder('u')
+            ->orderBy('u.name', 'ASC');
+
+        $params = array();
+        if (!is_null($q)) {
+            $or = new Orx();
+            $expressions = explode(' ', trim(preg_replace('/[ ]+/', ' ', $q)));
+            $fields = array('name', 'info');
+
+            for ($i = 0; $i < count($expressions); $i++) {
+                $expr = $expressions[$i];
+
+                foreach ($fields as $field) {
+                    $or->add(new Comparison('u.' . $field, 'LIKE', ':' . $field . $i));
+                    $params[$field . $i] = '%' . $expr . '%';
+                }
+            }
+
+            $query = $query->where($or);
+        }
+
+        $posts = $query->getQuery()
             ->setMaxResults(static::MEMBERS_PER_PAGE)
             ->setFirstResult(max(0, ((int)$page) - 1) * static::MEMBERS_PER_PAGE)
+            ->setParameters($params)
             ->getResult();
 
-        $count = $this->getEntityManager()
-            ->createQuery('select count(u) from MdkybWebsiteBundle:Member u')
+        $query = $query->select('count(u)');
+        $count = $query->getQuery()
+            ->setParameters($params)
             ->getSingleScalarResult();
 
         $pageCount = ceil($count / static::MEMBERS_PER_PAGE);
 
-        return array('users' => $posts, 'page' => $page, 'show_next' => $page < $pageCount);
+        return array('users' => $posts, 'page' => $page, 'show_next' => $page < $pageCount, 'pcount' => $pageCount, 'q' => $q);
     }
 
     /**

@@ -6,6 +6,29 @@
 
     <h1>MITGLIEDER</h1>
 
+    <form method="post" action="">
+        <span style="float: right;">
+            Seite 
+            {% if page > 1%}
+            <a href="{{ url('members', {page:page-1}) }}">&lt;</a>
+            {% endif %}
+            <a href="{{ url('members', {page:1}) }}">1</a>
+
+            {% if page != 1 and page != pcount %}
+                ... <a href="{{ url('members', {page:page}) }}">{{ page }}</a> ...
+            {% else %}
+                ...
+            {% endif %}
+
+            <a href="{{ url('members', {page:pcount}) }}">{{ pcount }}</a>
+            {% if page < pcount %}
+            <a href="{{ url('members', {page:page+1}) }}">&gt;</a>
+            {% endif %}
+        </span>
+        <input name="q" type="text" value="{{ q }}" /> <input name="s" type="submit" value="Suchen" />
+
+    </form>
+
     <table>
         {% for user in users %}
             <tr><td>
@@ -15,17 +38,5 @@
             </td><td><a href="{{ url('show_member', {id:user.id}) }}">{{ user.name }}</a></td></tr>
         {% endfor %}
     </table>
-    
-    {% if page > 1 or show_next %}
-        <h2>Navigation</h2>
-        <p>
-            {% if page > 1%}
-                <a href="{{ url('members', {page:page-1}) }}">Neuere Posts</a>
-            {% endif %}
-            {% if show_next %}
-                <a style="float:right;" href="{{ url('members', {page:page+1}) }}">Ältere Posts</a>
-            {% endif %}
-        </p>
-    {% endif %}
 
 {% endblock %}
